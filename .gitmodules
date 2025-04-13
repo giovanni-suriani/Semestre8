@@ -1,0 +1,3 @@
+[submodule "LAOC2_REPO"]
+	path = LAOC2_REPO
+	url = https://github.com/giovanni-suriani/LAOC2-REPO.git
