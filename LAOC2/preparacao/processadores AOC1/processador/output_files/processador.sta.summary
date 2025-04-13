@@ -1,0 +1,77 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow Model Setup 'clk'
+Slack : -5.517
+TNS   : -656.552
+
+Type  : Slow Model Setup 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : -3.507
+TNS   : -16.489
+
+Type  : Slow Model Setup 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : -3.184
+TNS   : -6.292
+
+Type  : Slow Model Hold 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : -3.043
+TNS   : -6.023
+
+Type  : Slow Model Hold 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : -2.831
+TNS   : -5.633
+
+Type  : Slow Model Hold 'clk'
+Slack : 0.788
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'clk'
+Slack : -1.423
+TNS   : -178.148
+
+Type  : Slow Model Minimum Pulse Width 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : 0.500
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : 0.500
+TNS   : 0.000
+
+Type  : Fast Model Setup 'clk'
+Slack : -2.518
+TNS   : -230.983
+
+Type  : Fast Model Setup 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : -1.794
+TNS   : -8.503
+
+Type  : Fast Model Setup 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : -1.591
+TNS   : -3.144
+
+Type  : Fast Model Hold 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : -1.717
+TNS   : -3.406
+
+Type  : Fast Model Hold 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : -1.537
+TNS   : -3.061
+
+Type  : Fast Model Hold 'clk'
+Slack : 0.381
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'clk'
+Slack : -1.423
+TNS   : -178.148
+
+Type  : Fast Model Minimum Pulse Width 'CTRL:controle|ExtensorSinal[0]~reg0'
+Slack : 0.500
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'CTRL:controle|RegOrdem1[0]~reg0'
+Slack : 0.500
+TNS   : 0.000
+
+------------------------------------------------------------

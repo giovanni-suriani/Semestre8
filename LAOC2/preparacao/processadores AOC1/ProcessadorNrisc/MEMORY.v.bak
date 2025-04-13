@@ -1,0 +1,36 @@
+module Memory (
+    input wire clock,
+    input wire [3:0] address,
+    input wire [7:0] writeData,
+    output wire [7:0] dataOut,
+
+    input wire MemRead,
+    input wire MemWrite
+);
+
+  reg [7:0] data[30:0];
+  reg [7:0] current;
+
+  initial begin
+    data[0] = 1;
+    data[1] = 15;
+    data[2] = 5;
+  end
+
+  always @(negedge clock) //read/leitura na memória
+    begin
+    if (MemRead) begin
+      current = data[address];
+    end
+  end
+
+  always @(posedge clock) //write/escrita na memória
+    begin
+    if (MemWrite) begin
+      data[address] = writeData;
+    end
+  end
+
+  assign dataOut = current;
+
+endmodule

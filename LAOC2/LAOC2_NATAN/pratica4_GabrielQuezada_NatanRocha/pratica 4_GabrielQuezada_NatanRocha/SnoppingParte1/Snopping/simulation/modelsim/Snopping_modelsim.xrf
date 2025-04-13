@@ -1,0 +1,14 @@
+vendor_name = ModelSim
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/SnoppingTestbench.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/EmissorTestbench.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Decodificador.v
+source_file = 1, C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/db/Snopping.cbx.xml
+design_name = Snopping
+instance = comp, \i_Operation[1]~I , i_Operation[1], Snopping, 1
+instance = comp, \i_Operation[0]~I , i_Operation[0], Snopping, 1
+instance = comp, \i_Clock~I , i_Clock, Snopping, 1
+instance = comp, \i_Start~I , i_Start, Snopping, 1

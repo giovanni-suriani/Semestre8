@@ -1,0 +1,114 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\guilh\Downloads\Snopping\Snopping\simulation\modelsim
+vBus
+!i10b 1
+!s100 U?iJC[bG9K5CDDaF2a32U3
+I>8XSP^PZEM0[Ha^R[3XUW1
+V;B6T5ETfkJzI3@I^bfZGC1
+Z1 dC:\Users\guilh\Downloads\Snopping\Snopping\simulation\modelsim
+w1670683766
+FC:/Users/guilh/Downloads/Snopping/Snopping/Bus.v
+Z2 8C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v
+Z3 FC:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v
+L0 1
+Z4 OV;L;10.1d;51
+r1
+!s85 0
+31
+Z5 !s108 1670686874.645000
+Z6 !s107 C:/Users/guilh/Downloads/Snopping/Snopping/Memory.v|C:/Users/guilh/Downloads/Snopping/Snopping/Cache.v|C:/Users/guilh/Downloads/Snopping/Snopping/Bus.v|C:/Users/guilh/Downloads/Snopping/Snopping/Snopping.v|C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v|
+Z7 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/guilh/Downloads/Snopping/Snopping|C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v|
+!s101 -O0
+Z8 o-vlog01compat -work work -O0
+Z9 !s92 -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping -O0
+n@bus
+vCache
+!i10b 1
+!s100 l?E2nSAD8oo=SVJ^:[;bm1
+I=b7nSEmJS<Q2[SK]5C[Ib1
+V2jJA2WM?4IF0bKO?P@<0Y3
+R1
+w1670686799
+FC:/Users/guilh/Downloads/Snopping/Snopping/Cache.v
+R2
+R3
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!s101 -O0
+R8
+R9
+n@cache
+vMemory
+!i10b 1
+!s100 bmXd]0?BQNFnZYOH5876@1
+I@bzj>RW?<IiY>CJjZENR80
+VTlfcWP5T_@kok:f=;QkYQ0
+R1
+w1670683789
+FC:/Users/guilh/Downloads/Snopping/Snopping/Memory.v
+R2
+R3
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!s101 -O0
+R8
+R9
+n@memory
+vSnopping
+!i10b 1
+!s100 Qi0=GW04LEK9JcOA3GV8B1
+I:BS4V2H^o2bWFQBkZmDO32
+V2Z<<3PedmKkQ3a@>[32hF3
+R1
+Z10 w1670682269
+FC:/Users/guilh/Downloads/Snopping/Snopping/Snopping.v
+R2
+R3
+L0 11
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!s101 -O0
+R8
+R9
+n@snopping
+vSnoppingTestbench
+!i10b 1
+!s100 [cgMdoBM[AemnIDK^<H@f3
+I17=4lIglX1XfNhbO>K0L[1
+Vz=K6^YC85a_3nV=QDXXa<3
+R1
+R10
+R2
+R3
+L0 3
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!s101 -O0
+R8
+R9
+n@snopping@testbench

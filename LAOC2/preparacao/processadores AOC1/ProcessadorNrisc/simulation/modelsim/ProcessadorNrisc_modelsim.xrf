@@ -1,0 +1,16 @@
+vendor_name = ModelSim
+source_file = 1, F:/ProcessadorNrisc/ProcessadorNrisc.v
+source_file = 1, F:/ProcessadorNrisc/ULA.v
+source_file = 1, F:/ProcessadorNrisc/CONTROL.v
+source_file = 1, F:/ProcessadorNrisc/SOMADOR8BITS.v
+source_file = 1, F:/ProcessadorNrisc/SOMADOR8BITSDUASENT.v
+source_file = 1, F:/ProcessadorNrisc/AND.v
+source_file = 1, F:/ProcessadorNrisc/MUXDOIS.v
+source_file = 1, F:/ProcessadorNrisc/MUXQUATRO.v
+source_file = 1, F:/ProcessadorNrisc/EXTENSOR.v
+source_file = 1, F:/ProcessadorNrisc/MEMORY.v
+source_file = 1, F:/ProcessadorNrisc/REGISTRADORES.v
+source_file = 1, F:/ProcessadorNrisc/INSTRUCAO.v
+source_file = 1, F:/ProcessadorNrisc/db/ProcessadorNrisc.cbx.xml
+design_name = ProcessadorNrisc
+instance = comp, \clk~I , clk, ProcessadorNrisc, 1

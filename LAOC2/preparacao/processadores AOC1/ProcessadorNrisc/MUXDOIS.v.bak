@@ -1,0 +1,15 @@
+module Multiplexador(
+   input wire selecao,
+   input wire entrada1,
+   input wire entrada2,
+   output reg saida 
+);
+
+   always @(selecao, entrada1, entrada2) begin
+      case (selecao)
+         1'b0: saida <= entrada1;
+         1'b1: saida <= entrada2;
+      endcase
+   end
+
+endmodule

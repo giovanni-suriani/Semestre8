@@ -1,0 +1,11 @@
+module Soma8Bits(
+   input wire [7:0] entrada1,
+   input wire [7:0] entrada2,
+   output reg [7:0] saida 
+);
+
+   always @(entrada1, entrada2) begin
+      saida <= entrada1 + entrada2;
+   end
+
+endmodule

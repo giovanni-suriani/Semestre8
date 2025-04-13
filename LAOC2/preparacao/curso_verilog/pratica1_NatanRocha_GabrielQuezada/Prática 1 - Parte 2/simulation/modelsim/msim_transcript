@@ -1,0 +1,136 @@
+# Reading C:/altera/13.0sp1/modelsim_ase/tcl/vsim/pref.tcl 
+# do memoria_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module memoria
+# 
+# Top level modules:
+# 	memoria
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ramlpm
+# 
+# Top level modules:
+# 	ramlpm
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module disp7seg
+# 
+# Top level modules:
+# 	disp7seg
+# 
+vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.memoria
+# vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.memoria 
+# Loading work.memoria
+# Loading work.ramlpm
+# Loading altera_mf_ver.altsyncram
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# Loading work.disp7seg
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(36): [PCDPC] - Port size (8 or 8) does not match connection size (4) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg1
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(37): [PCDPC] - Port size (8 or 8) does not match connection size (4) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg0
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(38): [PCDPC] - Port size (8 or 8) does not match connection size (1) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg5
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(39): [PCDPC] - Port size (8 or 8) does not match connection size (4) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg4
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(40): [PCDPC] - Port size (8 or 8) does not match connection size (4) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg7
+# ** Warning: (vsim-3015) C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v(41): [PCDPC] - Port size (8 or 8) does not match connection size (4) for port 'entry'. The port definition is at: C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v(1).
+# 
+#         Region: /memoria/dispSeg6
+# do memoria_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module memoria
+# 
+# Top level modules:
+# 	memoria
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ramlpm
+# 
+# Top level modules:
+# 	ramlpm
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module disp7seg
+# 
+# Top level modules:
+# 	disp7seg
+# 
+vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.ramlpm
+# vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.ramlpm 
+# Loading work.ramlpm
+# Loading altera_mf_ver.altsyncram
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+# do memoria_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module memoria
+# 
+# Top level modules:
+# 	memoria
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ramlpm
+# 
+# Top level modules:
+# 	ramlpm
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática\ 1\ -\ Parte\ 2 {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module disp7seg
+# 
+# Top level modules:
+# 	disp7seg
+# 
+add wave -position insertpoint  \
+sim:/ramlpm/clock
+wave create -driver freeze -pattern clock -initialvalue 0 -period 100ps -dutycycle 50 -starttime 0ps -endtime 1000ps sim:/ramlpm/clock
+wave create -driver freeze -pattern repeater -initialvalue 101 -period 500ps -sequence { 101 110  } -repeat forever -range 4 0 -starttime 0ps -endtime 1000ps sim:/ramlpm/address
+add wave -position insertpoint  \
+sim:/ramlpm/q
+run
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do}
+# save: cannot open file "C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do": no such file or directory
+wave editwrite -file {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do} -append
+# Cannot open file
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do}
+# save: cannot open file "C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do": no such file or directory
+wave editwrite -file {C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/simulation/modelsim/wave.do} -append
+# Cannot open file
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/NATAN/Downloads/wave.do
+wave editwrite -file C:/Users/NATAN/Downloads/wave.do -append
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/NATAN/Downloads/wave.do
+wave editwrite -file C:/Users/NATAN/Downloads/wave.do -append

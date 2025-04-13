@@ -1,0 +1,110 @@
+# Reading C:/altera/13.0sp1/modelsim_ase/tcl/vsim/pref.tcl 
+# do memoria_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Cache
+# 
+# Top level modules:
+# 	Cache
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ramlpm
+# 
+# Top level modules:
+# 	ramlpm
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module disp7seg
+# 
+# Top level modules:
+# 	disp7seg
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module memoria
+# 
+# Top level modules:
+# 	memoria
+# 
+vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.Cache
+# vsim +altera -Lf altera_mf_ver -do memoria_run_msim_rtl_verilog.do -l msim_transcript -gui work.Cache 
+# Loading work.Cache
+# do memoria_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Cache
+# 
+# Top level modules:
+# 	Cache
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ramlpm
+# 
+# Top level modules:
+# 	ramlpm
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module disp7seg
+# 
+# Top level modules:
+# 	disp7seg
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Parte\ 3\ (2)/Parte\ 3 {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module memoria
+# 
+# Top level modules:
+# 	memoria
+# 
+wave create -driver freeze -pattern clock -initialvalue 0 -period 100ps -dutycycle 50 -starttime 0ps -endtime 1000ps sim:/Cache/clock
+wave create -driver freeze -pattern repeater -initialvalue 11111 -period 50ps -sequence { 11111  } -repeat forever -range 4 0 -starttime 0ps -endtime 1000ps sim:/Cache/address
+add wave -position insertpoint  \
+sim:/Cache/hit
+add wave -position insertpoint  \
+sim:/Cache/q
+add wave -position insertpoint  \
+sim:/Cache/RAM
+add wave -position insertpoint  \
+sim:/Cache/qRAM
+add wave -position insertpoint  \
+sim:/Cache/cache
+add wave -position insertpoint  \
+sim:/Cache/state
+run
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/simulation/modelsim/wavemiss.do}
+wave editwrite -file {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/simulation/modelsim/wavemiss.do} -append
+wave create -driver freeze -pattern clock -initialvalue 0 -period 100ps -dutycycle 50 -starttime 0ps -endtime 1000ps sim:/Cache/clock
+wave create -driver freeze -pattern repeater -initialvalue 10110 -period 50ps -sequence { 10110  } -repeat forever -range 4 0 -starttime 0ps -endtime 1000ps sim:/Cache/address
+wave create -driver freeze -pattern clock -initialvalue 0 -period 100ps -dutycycle 50 -starttime 500ps -endtime 1000ps sim:/Cache/wren
+wave modify -driver freeze -pattern clock -initialvalue St0 -period 250ps -dutycycle 50 -starttime 500ps -endtime 1000ps Edit:/Cache/wren
+wave modify -driver freeze -pattern clock -initialvalue St0 -period 250ps -dutycycle 25 -starttime 500ps -endtime 1000ps Edit:/Cache/wren
+wave modify -driver freeze -pattern clock -initialvalue St0 -period 100ps -dutycycle 75 -starttime 500ps -endtime 1000ps Edit:/Cache/wren
+wave modify -driver freeze -pattern constant -value 1 -starttime 500ps -endtime 1000ps Edit:/Cache/wren
+add wave -position insertpoint  \
+sim:/Cache/hit
+restart
+# Loading work.Cache
+wave create -driver freeze -pattern repeater -initialvalue 111 -period 50ps -sequence { 111  } -repeat forever -range 7 0 -starttime 500ps -endtime 1000ps sim:/Cache/data
+add wave -position insertpoint  \
+sim:/Cache/q
+add wave -position insertpoint  \
+sim:/Cache/cache
+add wave -position insertpoint  \
+sim:/Cache/state
+run
+wave editwrite -file {C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/simulation/modelsim/waveWren.do}

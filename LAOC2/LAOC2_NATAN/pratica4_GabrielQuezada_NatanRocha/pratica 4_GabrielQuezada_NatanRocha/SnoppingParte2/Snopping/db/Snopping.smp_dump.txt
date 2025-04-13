@@ -1,0 +1,21 @@
+
+State Machine - |Snopping|Cache:u_C3|r_Step
+Name r_Step.STEP3 r_Step.STEP2 r_Step.STEP1 r_Step.STEP0 
+r_Step.STEP0 0 0 0 0 
+r_Step.STEP1 0 0 1 1 
+r_Step.STEP2 0 1 0 1 
+r_Step.STEP3 1 0 0 1 
+
+State Machine - |Snopping|Cache:u_C1|r_Step
+Name r_Step.STEP3 r_Step.STEP2 r_Step.STEP1 r_Step.STEP0 
+r_Step.STEP0 0 0 0 0 
+r_Step.STEP1 0 0 1 1 
+r_Step.STEP2 0 1 0 1 
+r_Step.STEP3 1 0 0 1 
+
+State Machine - |Snopping|Cache:u_C0|r_Step
+Name r_Step.STEP3 r_Step.STEP2 r_Step.STEP1 r_Step.STEP0 
+r_Step.STEP0 0 0 0 0 
+r_Step.STEP1 0 0 1 1 
+r_Step.STEP2 0 1 0 1 
+r_Step.STEP3 1 0 0 1 

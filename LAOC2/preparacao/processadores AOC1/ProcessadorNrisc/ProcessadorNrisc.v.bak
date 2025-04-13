@@ -1,0 +1,5 @@
+module ProcessadorNrisc(clk);
+	input clk;
+
+
+endmodule

@@ -1,0 +1,12 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Snopping.v}
+vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Cache.v}
+vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Bus.v}
+vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Memory.v}
+

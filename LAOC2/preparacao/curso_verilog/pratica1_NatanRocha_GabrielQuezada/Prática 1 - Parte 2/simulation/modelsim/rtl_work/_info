@@ -1,0 +1,65 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\NATAN\Desktop\pratica1_NatanRocha_GabrielQuezada\Prática 1 - Parte 2\simulation\modelsim
+vdisp7seg
+!i10b 1
+!s100 _3MZcg]<Ycln:HD@jQ3fH0
+I?DJS>hfkm9Vh9e=VHC5=l0
+V6i]mE7=9Q;dKd2:n]0g2W1
+Z1 dC:\Users\NATAN\Desktop\pratica1_NatanRocha_GabrielQuezada\Prática 1 - Parte 2\simulation\modelsim
+Z2 w1710263046
+8C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v
+FC:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v
+L0 1
+Z3 OV;L;10.1d;51
+r1
+!s85 0
+31
+!s108 1713146321.269000
+!s107 C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2|C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/disp7seg.v|
+!s101 -O0
+Z4 o-vlog01compat -work work -O0
+Z5 !s92 -vlog01compat -work work {+incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2} -O0
+vmemoria
+I6fVEbgY8=MnmLjjFFG1BX1
+Vb:=H>c6gB`m5B?4]DEPLM3
+R1
+w1711377408
+8C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v
+FC:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v
+L0 1
+R3
+r1
+31
+R4
+R5
+!i10b 1
+!s100 TUzcZD45BD=d?`cb49i9z1
+!s85 0
+!s108 1713146321.197000
+!s107 C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2|C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/memoria.v|
+!s101 -O0
+vramlpm
+IzMKBkYU39TfOjKn@imc[n3
+VR:=61PRUnAZWihg=S@JO<2
+R1
+R2
+8C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v
+FC:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v
+L0 39
+R3
+r1
+31
+R4
+R5
+!i10b 1
+!s100 0;@=CYASZ42H4gDl51IRY3
+!s85 0
+!s108 1713146321.234000
+!s107 C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2|C:/Users/NATAN/Desktop/pratica1_NatanRocha_GabrielQuezada/Prática 1 - Parte 2/ramlpm.v|
+!s101 -O0

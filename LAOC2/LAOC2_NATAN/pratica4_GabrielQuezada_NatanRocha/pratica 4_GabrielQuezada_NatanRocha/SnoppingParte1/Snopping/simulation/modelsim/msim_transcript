@@ -1,0 +1,106 @@
+# Reading C:/altera/13.0sp1/modelsim_ase/tcl/vsim/pref.tcl 
+# do Snopping_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Pratica\ 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping {C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Snopping
+# 
+# Top level modules:
+# 	Snopping
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Pratica\ 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping {C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Receptor
+# 
+# Top level modules:
+# 	Receptor
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Pratica\ 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping {C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Emissor
+# 
+# Top level modules:
+# 	Emissor
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/NATAN/Downloads/Pratica\ 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping {C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ReceptorTestbench
+# 
+# Top level modules:
+# 	ReceptorTestbench
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs="+acc"  ReceptorTestbench
+# vsim -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs=\"+acc\" -t 1ps ReceptorTestbench 
+# Loading work.ReceptorTestbench
+# Loading work.Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Clock' not found in the connected module (1st connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Operation' not found in the connected module (2nd connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Fatal: (vsim-3365) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Too many port connections. Expected 1, found 2.
+#    Time: 0 ps  Iteration: 0  Instance: /ReceptorTestbench/u_Receptor File: C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+# FATAL ERROR while loading design
+# Error loading design
+# Error: Error loading design 
+#        Pausing macro execution 
+# MACRO ./Snopping_run_msim_rtl_verilog.do PAUSED at line 14
+vsim work.ReceptorTestbench
+# vsim work.ReceptorTestbench 
+# Loading work.ReceptorTestbench
+# Loading work.Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Clock' not found in the connected module (1st connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Operation' not found in the connected module (2nd connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Fatal: (vsim-3365) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Too many port connections. Expected 1, found 2.
+#    Time: 0 ps  Iteration: 0  Instance: /ReceptorTestbench/u_Receptor File: C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+# FATAL ERROR while loading design
+# Error loading design
+# Error: Error loading design 
+#        Pausing macro execution 
+# MACRO ./Snopping_run_msim_rtl_verilog.do PAUSED at line 14
+vsim work.ReceptorTestbench
+# vsim work.ReceptorTestbench 
+# Loading work.ReceptorTestbench
+# Loading work.Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Clock' not found in the connected module (1st connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Operation' not found in the connected module (2nd connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Fatal: (vsim-3365) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Too many port connections. Expected 1, found 2.
+#    Time: 0 ps  Iteration: 0  Instance: /ReceptorTestbench/u_Receptor File: C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+# FATAL ERROR while loading design
+# Error loading design
+# Error: Error loading design 
+#        Pausing macro execution 
+# MACRO ./Snopping_run_msim_rtl_verilog.do PAUSED at line 14
+vsim -Lf altera_mf_ver work.ReceptorTestbench
+# vsim -Lf altera_mf_ver work.ReceptorTestbench 
+# Loading work.ReceptorTestbench
+# Loading work.Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Clock' not found in the connected module (1st connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Error: (vsim-3389) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Port 'i_Operation' not found in the connected module (2nd connection).
+# 
+#         Region: /ReceptorTestbench/u_Receptor
+# ** Fatal: (vsim-3365) C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v(14): Too many port connections. Expected 1, found 2.
+#    Time: 0 ps  Iteration: 0  Instance: /ReceptorTestbench/u_Receptor File: C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+# FATAL ERROR while loading design
+# Error loading design
+# Error: Error loading design 
+#        Pausing macro execution 
+# MACRO ./Snopping_run_msim_rtl_verilog.do PAUSED at line 14

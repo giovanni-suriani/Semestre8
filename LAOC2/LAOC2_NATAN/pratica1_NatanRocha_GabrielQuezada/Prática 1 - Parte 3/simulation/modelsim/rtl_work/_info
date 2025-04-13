@@ -1,0 +1,86 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\NATAN\Downloads\Parte 3 (2)\Parte 3\simulation\modelsim
+vCache
+IWG51ddHMC0`R6k^P]PE;z2
+VjVdEe6eB7HgXn0F2XY5[_0
+Z1 dC:\Users\NATAN\Downloads\Parte 3 (2)\Parte 3\simulation\modelsim
+w1713142708
+8C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v
+FC:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v
+L0 1
+Z2 OV;L;10.1d;51
+r1
+31
+Z3 o-vlog01compat -work work -O0
+n@cache
+Z4 !s92 -vlog01compat -work work {+incdir+C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3} -O0
+!i10b 1
+!s100 [ACYC<bEo1cM4g<]fC^@T0
+!s85 0
+!s108 1713142892.961000
+!s107 C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3|C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/Cache.v|
+!s101 -O0
+vdisp7seg
+IW`[bP84n^6z_gJOZF<EVK1
+V6i]mE7=9Q;dKd2:n]0g2W1
+R1
+w1713142473
+8C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v
+FC:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v
+L0 1
+R2
+r1
+31
+R3
+R4
+!i10b 1
+!s100 W3WT:R>@T;@7W7^9H[2Ca0
+!s85 0
+!s108 1713142893.034000
+!s107 C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3|C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/disp7seg.v|
+!s101 -O0
+vmemoria
+!i10b 1
+!s100 _HeAJ`mh2@alP`gV=OGKf0
+IH?bV?n@C@dIGJU;IAbg;P2
+VJiGKC79@0Dcd<CHPE>Z]i2
+R1
+Z5 w1713142474
+8C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v
+FC:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1713142893.069000
+!s107 C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3|C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/memoria.v|
+!s101 -O0
+R3
+R4
+vramlpm
+IVDi=Nk=P7jH3Sm9zPD8o?2
+VR:=61PRUnAZWihg=S@JO<2
+R1
+R5
+8C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v
+FC:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v
+L0 39
+R2
+r1
+31
+R3
+R4
+!i10b 1
+!s100 DJ^H?HKK`0VYVQBJeS>]O0
+!s85 0
+!s108 1713142892.998000
+!s107 C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3|C:/Users/NATAN/Downloads/Parte 3 (2)/Parte 3/ramlpm.v|
+!s101 -O0

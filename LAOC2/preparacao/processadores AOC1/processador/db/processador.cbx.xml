@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="processador">
+		<CBX_INST_ENTRY INSTANCE_NAME="|processador|ULAAOC:ula|lpm_add_sub:Add0" CBX_FILE_NAME="add_sub_qpi.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|processador|memoInst:memoi|altsyncram:WideOr3_rtl_0" CBX_FILE_NAME="altsyncram_u311.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

@@ -1,0 +1,16 @@
+module Multiplexador4x1(
+   input wire [1:0] selecao,
+   input wire [3:0] entrada,
+   output reg saida 
+);
+
+   always @(selecao, entrada) begin
+      case (selecao)
+         2'b00: saida <= entrada[0];
+         2'b01: saida <= entrada[1];
+         2'b10: saida <= entrada[2];
+         2'b11: saida <= entrada[3];
+      endcase
+   end
+
+endmodule

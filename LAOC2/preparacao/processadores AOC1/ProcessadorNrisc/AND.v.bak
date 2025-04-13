@@ -1,0 +1,11 @@
+module PortaAND(
+   input wire entrada1,
+   input wire entrada2,
+   output reg saida 
+);
+
+   always @(entrada1, entrada2) begin
+      saida <= entrada1 & entrada2;
+   end
+
+endmodule

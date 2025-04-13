@@ -1,0 +1,38 @@
+{
+  "Disciplinas1": {
+    "Física Experimental I": "30h",
+    "Física Experimental II": "30h",
+    "Laboratório de Arquitetura e Organização de Computadores II": "30h",
+    "Laboratório de Sistemas Operacionais": "30h",
+    "Sistemas Operacionais": "60h",
+    "Compiladores": "60h",
+    "Sistemas Distribuídos": "60h",
+    "Inteligência Computacional I": "90h",
+    "Introdução à Administração": "30h",
+    "Otimização II": "60h",
+    "Interação Humano-Computador": "60h",
+    "Trabalho de Conclusão de Curso I": "15h",
+    "Contexto Social e Profissional do Engenheiro de Computação": "30h",
+    "Organização Empresarial": "30h",
+    "Metodologia de Pesquisa": "30h",
+    "Trabalho de Conclusão de Curso II": "15h",
+    "Estágio Supervisionado": "30h",
+    "Estágio Supervisionado Curricular - Computação": "300h",
+    "ENADE Concluinte Pendente": "0h"
+  },
+  "TotalRestante": "990h",
+
+  "Disciplinas2": {
+    "Compiladores": "60h",
+    "Fisica experimental": "30h",
+    "Inteligencia computacional": "60h",
+    "Sistemas Operacionais": "60h",
+    "Otimizacao": "60h",
+    "Laboratorio de Arquitetura e Organizacao de Computadores 2": "30h",
+    "Otimizacao 2": "60h",
+    "Sistemas Distribuidos": "60h",
+    "Interacao humano computador": "60h",
+    "Administracao": "30h"
+  },
+  "Total": "510h"
+}

@@ -1,0 +1,11 @@
+module CONTROL//controle
+	always   begin
+		case
+
+endmodule
+
+
+
+module CONTROLteste//teste
+
+endmodule

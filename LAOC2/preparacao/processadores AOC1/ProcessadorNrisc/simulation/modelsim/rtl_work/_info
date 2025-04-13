@@ -1,0 +1,68 @@
+m255
+K3
+13
+cModel Technology
+Z0 dF:\ProcessadorNrisc\simulation\modelsim
+vMemory
+!i10b 1
+!s100 D?:D3iJbiWVzVHi<_l:RG1
+IhaDYdg`7Y614FGa^PgD1d0
+VBAA[anX0cTA=cS?DU;T0X2
+Z1 dF:\ProcessadorNrisc\simulation\modelsim
+Z2 w1688131920
+Z3 8F:/ProcessadorNrisc/MEMORY.v
+Z4 FF:/ProcessadorNrisc/MEMORY.v
+L0 1
+Z5 OV;L;10.1d;51
+r1
+!s85 0
+31
+Z6 !s108 1688131963.650000
+Z7 !s107 F:/ProcessadorNrisc/MEMORY.v|
+Z8 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+F:/ProcessadorNrisc|F:/ProcessadorNrisc/MEMORY.v|
+!s101 -O0
+Z9 o-vlog01compat -work work -O0
+Z10 !s92 -vlog01compat -work work +incdir+F:/ProcessadorNrisc -O0
+n@memory
+vMemoryteste
+!i10b 1
+!s100 2WJe41HaNBGc7LI[T;S]M1
+IPJ5o147D=?[>4V3[j5dke0
+V8<IdjYPSGBm8M4gno9V;>1
+R1
+R2
+R3
+R4
+L0 37
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!s101 -O0
+R9
+R10
+n@memoryteste
+vProcessadorNrisc
+I4iXXkBIV3Bz[gO2Xden6O3
+VlONOgB8T6;UWf7<A=@T=j3
+R1
+w1686871264
+8F:/ProcessadorNrisc/ProcessadorNrisc.v
+FF:/ProcessadorNrisc/ProcessadorNrisc.v
+L0 1
+R5
+r1
+31
+R9
+n@processador@nrisc
+!i10b 1
+!s100 kS?ebhfPQhM37k9HA>3o22
+!s85 0
+!s108 1688131963.586000
+!s107 F:/ProcessadorNrisc/ProcessadorNrisc.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+F:/ProcessadorNrisc|F:/ProcessadorNrisc/ProcessadorNrisc.v|
+!s101 -O0
+R10

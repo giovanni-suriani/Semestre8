@@ -1,0 +1,89 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\NATAN\Downloads\Pratica 4_GabrielQuezada_NatanRocha\SnoppingParte1\SnoppingParte1\Snopping\simulation\modelsim
+vEmissor
+I;RVilaQ42JkTD0^j7XW:O1
+Vd8:X@B<A7ko?Pif2cCgeE2
+Z1 dC:\Users\NATAN\Downloads\Pratica 4_GabrielQuezada_NatanRocha\SnoppingParte1\SnoppingParte1\Snopping\simulation\modelsim
+Z2 w1726006701
+8C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v
+FC:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v
+L0 1
+Z3 OV;L;10.1d;51
+r1
+31
+Z4 o-vlog01compat -work work -O0
+Z5 !s92 -vlog01compat -work work {+incdir+C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping} -O0
+n@emissor
+!i10b 1
+!s100 ;]U=1eFgfKCQUGicWkF@j0
+!s85 0
+!s108 1726008876.588000
+!s107 C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping|C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Emissor.v|
+!s101 -O0
+vReceptor
+IbCZ6Gl4URhUg?9WjC@g1A1
+VHibTD@Cg1SkSGa@9EiJKN1
+R1
+R2
+8C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+FC:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v
+L0 1
+R3
+r1
+31
+R4
+R5
+n@receptor
+!i10b 1
+!s100 JCS=nlPE1=aGeaR^ZW9o<2
+!s85 0
+!s108 1726008876.545000
+!s107 C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping|C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Receptor.v|
+!s101 -O0
+vReceptorTestbench
+!i10b 1
+!s100 8SlK68an^ROC7zFNWh0z82
+I>WFJK734gPHAXD7c]:=Ek1
+Vb6PGc0o^V9mTAM_7@YjLT1
+R1
+R2
+8C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v
+FC:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v
+L0 1
+R3
+r1
+!s85 0
+31
+!s108 1726008876.627000
+!s107 C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping|C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/ReceptorTestbench.v|
+!s101 -O0
+R4
+R5
+n@receptor@testbench
+vSnopping
+I@N9DD46VSmc6TRM]jT=EA1
+VCo@;5?S[R1o3[Vno3lF_K2
+R1
+w1726008339
+8C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v
+FC:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v
+L0 1
+R3
+r1
+31
+R4
+n@snopping
+R5
+!i10b 1
+!s100 C@LAk_6Shn<Y@AQ>?kOdZ3
+!s85 0
+!s108 1726008876.506000
+!s107 C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping|C:/Users/NATAN/Downloads/Pratica 4_GabrielQuezada_NatanRocha/SnoppingParte1/SnoppingParte1/Snopping/Snopping.v|
+!s101 -O0

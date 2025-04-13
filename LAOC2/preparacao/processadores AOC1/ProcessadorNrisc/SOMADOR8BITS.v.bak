@@ -1,0 +1,10 @@
+module Somador8Bits(
+   input wire [7:0] entrada,
+   output reg [7:0] saida 
+);
+
+   always @(entrada) begin
+      saida <= entrada + 1;
+   end
+
+endmodule

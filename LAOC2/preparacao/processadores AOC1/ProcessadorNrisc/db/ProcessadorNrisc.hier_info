@@ -1,0 +1,4 @@
+|ProcessadorNrisc
+clk => ~NO_FANOUT~
+
+

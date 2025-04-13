@@ -1,0 +1,11 @@
+
+State Machine - |Snopping|Emissor:u_Emissor|r_State
+Name r_State.INVALID r_State.MODIFIED r_State.SHARED 
+r_State.INVALID 0 0 0 
+r_State.SHARED 1 0 1 
+r_State.MODIFIED 1 1 0 
+
+State Machine - |Snopping|Emissor:u_Emissor|r_Step
+Name r_Step.STEP1 
+r_Step.STEP0 0 
+r_Step.STEP1 1 

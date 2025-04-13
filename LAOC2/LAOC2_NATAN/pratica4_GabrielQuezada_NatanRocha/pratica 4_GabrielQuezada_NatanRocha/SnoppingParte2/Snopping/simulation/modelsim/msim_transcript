@@ -1,0 +1,520 @@
+# Reading D:/altera/modelsim_ase/tcl/vsim/pref.tcl 
+# do Snopping_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying D:\altera\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied D:\altera\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Snopping.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Bus
+# -- Compiling module Cache
+# -- Compiling module Memory
+# -- Compiling module Snopping
+# 
+# Top level modules:
+# 	Snopping
+# vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Cache.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Cache
+# 
+# Top level modules:
+# 	Cache
+# vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Bus.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Bus
+# 
+# Top level modules:
+# 	Bus
+# vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/Memory.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Memory
+# 
+# Top level modules:
+# 	Memory
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/guilh/Downloads/Snopping/Snopping {C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Bus
+# -- Compiling module Cache
+# -- Compiling module Memory
+# -- Compiling module Snopping
+# -- Compiling module SnoppingTestbench
+# 
+# Top level modules:
+# 	SnoppingTestbench
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs="+acc"  SnoppingTestbench
+# vsim -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs=\"+acc\" -t 1ps SnoppingTestbench 
+# Loading work.SnoppingTestbench
+# Loading work.Snopping
+# Loading work.Memory
+# Loading work.Cache
+# Loading work.Bus
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# Recebido 0 20
+# C0 CONTENTS:
+# B0: S  1 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  1 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 20
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  0 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 20
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# Recebido 0 30
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  1 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  2 T  1 V 48
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  0 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  2 T  1 V 48
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  0 T  1 V  8
+# B2: S  2 T  6 V 78
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# 1
+# Break in Module SnoppingTestbench at C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v line 148
+# Simulation Breakpoint: 1
+# Break in Module SnoppingTestbench at C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v line 148
+# MACRO ./Snopping_run_msim_rtl_verilog.do PAUSED at line 20
+add wave -position end  sim:/SnoppingTestbench/u_Snopping/u_C0/r_Memory
+add wave -position end  sim:/SnoppingTestbench/u_Snopping/u_C1/r_Memory
+add wave -position end  sim:/SnoppingTestbench/u_Snopping/u_C3/r_Memory
+add wave -position end  sim:/SnoppingTestbench/u_Snopping/u_Memory/r_Memory
+run
+restart -f
+# Closing VCD file "test.vcd"
+run
+# Recebido 0 20
+# C0 CONTENTS:
+# B0: S  1 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  1 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 20
+# T  6 V 30
+# --------------------------------------
+run
+# C0 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  0 T  4 V 20
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 20
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 10
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 10
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# Recebido 0 30
+run
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  1 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 10
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+run
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  1 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  2 T  1 V 48
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  0 T  1 V  8
+# B2: S  2 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# --------------------------------------
+run
+# C0 CONTENTS:
+# B0: S  0 T  4 V 80
+# B1: S  2 T  1 V 48
+# B2: S  0 T  2 V 30
+# B3: S  0 T  3 V 10
+# 
+# 
+# C1 CONTENTS:
+# B0: S  0 T  0 V 10
+# B1: S  2 T  5 V 68
+# B2: S  0 T  2 V 30
+# B3: S  1 T  3 V 18
+# 
+# 
+# C3 CONTENTS:
+# B0: S  2 T  4 V 80
+# B1: S  0 T  1 V  8
+# B2: S  2 T  6 V 78
+# B3: S  0 T  3 V 10
+# 
+# 
+# MEM CONTENTS:
+# T  1 V  8
+# T  2 V 30
+# T  4 V 80
+# T  6 V 30
+# 1
+# Break in Module SnoppingTestbench at C:/Users/guilh/Downloads/Snopping/Snopping/SnoppingTestbench.v line 148
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/guilh/Downloads/Snopping/Snopping/simulation/modelsim/wave.do
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/guilh/Downloads/Snopping/Snopping/simulation/modelsim/wave.do

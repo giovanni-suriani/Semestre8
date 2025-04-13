@@ -1,0 +1,51 @@
+# Reading F:/altera/13.0sp1/modelsim_ase/tcl/vsim/pref.tcl 
+# do ProcessadorNrisc_run_msim_rtl_verilog.do 
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Copying F:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied F:\altera\13.0sp1\modelsim_ase\win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+F:/ProcessadorNrisc {F:/ProcessadorNrisc/ProcessadorNrisc.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module ProcessadorNrisc
+# 
+# Top level modules:
+# 	ProcessadorNrisc
+# 
+# vlog -vlog01compat -work work +incdir+F:/ProcessadorNrisc {F:/ProcessadorNrisc/MEMORY.v}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module Memory
+# -- Compiling module Memoryteste
+# 
+# Top level modules:
+# 	Memoryteste
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs="+acc"  Memoryteste
+# vsim -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneii_ver -L rtl_work -L work -voptargs=\"+acc\" -t 1ps Memoryteste 
+# Loading work.Memoryteste
+# Loading work.Memory
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# Teste 1: Escrevendo na memoria
+# Supondo que $mem contem o valor 22
+# Escrevendo no endereco 10 da memoria de dados
+# Valor armazenado na posicao 10:   x
+# Time=0, Clock=0, MemRead=0, MemWrite=1, address=10, writeData= 22, dataOut=  z
+# Time=1, Clock=1, MemRead=0, MemWrite=1, address=10, writeData= 22, dataOut=  z
+# Valor armazenado na posicao 10:  22
+# Teste 2: Lendo da memoria
+# Lendo da posicao 10 da memoria de dados
+# Valor armazenado na posicao 10:  22
+# Time=2, Clock=0, MemRead=1, MemWrite=0, address=10, writeData= 22, dataOut=  z
+# Valor da saida do banco de memoria:   z
+# Time=4, Clock=1, MemRead=1, MemWrite=0, address=10, writeData= 22, dataOut=  z

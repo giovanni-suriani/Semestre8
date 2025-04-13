@@ -1,0 +1,112 @@
+module SnoppingTestbench;
+
+  localparam [1:0] RM = 0;
+  localparam [1:0] RH = 1;
+  localparam [1:0] WM = 2;
+  localparam [1:0] WH = 3;
+
+  reg r_Clock = 0;
+  reg r_Start = 0;
+  reg [1:0] r_Operation;
+
+  Snopping u_Dut (
+      r_Start,
+      r_Clock,
+      r_Operation
+  );
+
+  always #5 r_Clock <= ~r_Clock;
+
+  initial begin
+    $dumpfile("test.vcd");
+    $dumpvars(0, SnoppingTestbench);
+  end
+
+  task automatic displayState();
+    begin
+      $display("Maquina EMISSORA");
+      $display("Estado: %1d", u_Dut.u_Emissor.r_State);
+      $display("Mensagem: %1d", u_Dut.u_Emissor.r_Message);
+      $display("Acao: %1d", u_Dut.u_Emissor.r_Action);
+
+      $display("Maquina RECEPTORA");
+      $display("Estado: %1d", u_Dut.u_Receptor.r_State);
+      $display("Sinal: %1d", u_Dut.u_Receptor.r_Signal);
+
+
+      $display("----------------------------------------------");
+    end
+  endtask
+
+  initial begin
+    #5;
+    displayState();
+
+    @(negedge r_Clock);
+    $display("Operacao: RM, move EMISSORA para SHARED e RECEPTORA para SHARED");
+    r_Operation = RM;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+    @(negedge r_Clock);
+    $display("Operacao: WH, move EMISSORA para MODIFIED e RECEPTORA para INVALID");
+    r_Operation = WH;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+    @(negedge r_Clock);
+    $display("Operacao: RM, move EMISSORA para SHARED, ATIVA WRITEBACK e RECEPTORA para INVALID");
+    r_Operation = RM;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+    @(negedge r_Clock);
+    $display("Operacao: WM, move EMISSORA para MODIFIED e RECEPTORA para INVALID");
+    r_Operation = WM;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+    $display("Troca o estado da RECEPTORA para MODIFIED por meio do codigo");
+    u_Dut.u_Receptor.r_State = 2;
+
+    @(negedge r_Clock);
+    $display(
+        "Operacao: RM, move EMISSORA para SHARED, faz WRITEBACK e RECEPTORA para SHARED, ativando ABORT");
+    r_Operation = RM;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+    $display("Troca o estado da RECEPTORA para MODIFIED por meio do codigo");
+    u_Dut.u_Receptor.r_State = 2;
+
+    @(negedge r_Clock);
+    $display(
+        "Operacao: WM, move EMISSORA para MODIFIED e RECEPTORA para INVALID, ativando ABORT");
+    r_Operation = WM;
+    r_Start = 1;
+    @(negedge r_Clock);
+    r_Start = 0;
+    #20;
+    displayState();
+
+
+    #10;
+    $finish();
+  end
+
+endmodule
