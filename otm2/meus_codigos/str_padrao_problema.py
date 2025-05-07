@@ -16,6 +16,26 @@ logger = logging.getLogger(__name__)
 
 VERBOSE = False
 
+def checa_restricao_maior_igual_zero(constantes_lhs, valor_rhs, simbolo:str = "≥"):
+    """
+    Checa se a restrição é maior ou igual a zero.
+    Args:
+        constantes_lhs (list[Fraction]): coeficientes do lado esquerdo
+        valor_rhs (Fraction): valor do lado direito da restrição
+        simbolo (str): símbolo de comparação
+    Returns:
+        bool: True se a restrição for maior ou igual a zero, False caso contrário
+    """
+    non_zer_vars = 0
+    for constante in constantes_lhs:
+        if constante != 0:
+            non_zer_vars += 1
+    if non_zer_vars == 1: 
+        if simbolo == ">=" or simbolo == "≥":
+            if valor_rhs == 0:
+                return True
+    return False
+
 def adicionando_variaveis_zeradas_na_expr(constantes_e_variaveis_dono:dict, constantes_e_variaveis_expr:dict) -> dict:
     """
     Adiciona variáveis zeradas no dicionário de constantes e variáveis.
@@ -306,16 +326,15 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
     # Segundo, variávies de folga
     
 def str_problem_to_standard_form(problem, detailed:bool = False, decimal:bool = False):
-    """ Transforma um problema de programação linear em sua forma padrão.""" 
-    # problem = """max x1 + 2x2
-    #         2x1 + x2 ≥ 2/3
-    #         x2 <= 0"""
-    # problem = """min x1 + 2x2
-    #         2x1 + x2 ≥ 2/3
-    #         x1 + x2 ≥ 1
-    #         x2 = 2
-    #         x1 >= 0
-    #         x2 <= 0"""
+    """ 
+    Transforma um problema de programação linear em sua forma padrão.
+    Args:
+        problem (str): problema a ser transformado
+        detailed (bool): se True, retorna a função com termos em 0
+        decimal (bool): se True, retorna a função com termos em 0
+    Returns:
+        str: problema transformado para forma padrão
+    """
     problem = problem.split("\n")
     f_obj = problem[0]
     restricoes = problem[1:]
@@ -346,7 +365,8 @@ def str_problem_to_standard_form(problem, detailed:bool = False, decimal:bool = 
                 if constante != 0:
                     constantes_e_variaveis[variavel] = -constantes_e_variaveis[variavel]
         new_restricoes.append(forma_padrao_restricao)
-        logger.debug(f"forma_padrao_restricao {restricao.lstrip()} SE TRANSFORMA EIN {forma_padrao_restricao}")
+        if VERBOSE:
+            logger.debug(f"forma_padrao_restricao {restricao.lstrip()} SE TRANSFORMA EIN {forma_padrao_restricao}")
     #monta_f_obj(tipo_funcao, constantes_e_variaveis, standard_form=True, detailed=detailed, decimal=decimal)
     # Adicionando 0's nas variaveis que nao aparecem nas restricoes, mas estao na funcao objetivo
     if detailed:
@@ -359,20 +379,30 @@ def str_problem_to_standard_form(problem, detailed:bool = False, decimal:bool = 
             forma_padrao_restricao_detailed, _ = monta_restricao(constantes_e_variaveis_lhs, simbolo, valor_rhs, standard_form=(True, "s" + str(slack_var)),
                                                                  detailed=detailed, decimal=decimal) 
             new_restricoes.append(forma_padrao_restricao_detailed)
-            logger.debug(f"forma_padrao_restricao_detailed {restricao.lstrip()} SE TRANSFORMA EIN {forma_padrao_restricao_detailed}")
+            if VERBOSE:
+                logger.debug(f"forma_padrao_restricao_detailed {restricao.lstrip()} SE TRANSFORMA EIN {forma_padrao_restricao_detailed}")
     f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis, standard_form=True, detailed=detailed, decimal=decimal)
     std_problem = f_obj + "\n"
     for restricao in new_restricoes:
         std_problem += restricao + "\n"
     std_problem = std_problem.strip()
-    return std_problem
     logger.debug(f"Função objetivo antiga: \n{problem}")
-    logger.debug(f"////////////\nFunção objetivo padrão: \n{std_problem}")
+    logger.debug(f"\nFunção objetivo padrão: \n{std_problem}")
+    return std_problem
         
 def str_problem_to_std_form_matrix (problem, decimal:bool = False): 
-    problem = """min 3/2x1 + 2x2
-              2x1 + x2 + 3x4 ≥ 2/3
-              2x1 + x2 + x4 ≥ 1"""
+    """ 
+        Função para transformar um problema de programação linear em sua forma padrão, retornado em matriz.
+        Args:
+            problem (str): problema a ser transformado
+            decimal (bool): se True, retorna a função com termos em 0
+        Returns:
+            Tuple:
+                - A (list): matriz de coeficientes
+                - b (list): vetor de constantes
+                - c (list): vetor de coeficientes da função objetivo
+                - x (list): lista de variáveis
+    """
     std_problem = str_problem_to_standard_form(problem, detailed=True, decimal=decimal)
     std_problem = std_problem.split("\n")
     tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(std_problem[0])
@@ -384,21 +414,78 @@ def str_problem_to_std_form_matrix (problem, decimal:bool = False):
     b = []
     for restricao in restricoes:
         constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(restricao)
+        non_zero_var = 0
+        constantes_lhs = list(constantes_lhs)
+        for constante in constantes_lhs:
+            if constante != 0:
+                non_zero_var += 1
+        
+        if simbolo == ">=" or simbolo == "≥":
+            if valor_rhs == 0:
+                if non_zero_var == 1:
+                    continue
         A.append(constantes_lhs)
         b.append(valor_rhs)
     A_matrix = Matrix(A)
     B_matrix = Matrix(b)
     c_matrix = Matrix(c)
+    x_matrix = Matrix(variaveis)
 
     # Mostra bonitinho no console
     # Mostra bonitinho no log (como string)
-    logger.debug("\nMatriz A \n" + pretty(A_matrix) + "\n Matriz B \n" + pretty(Matrix(b)) + "\n Matriz C \n" + pretty(Matrix(c)))
-       
+    logger.debug("\nMatriz A \n" + pretty(A_matrix) + "\n Matriz B \n" + pretty(Matrix(b)) + "\n Matriz C \n" + pretty(Matrix(c)) 
+                 + "\n Matriz X \n" + pretty(Matrix(variaveis)))
+    return A, b, c, variaveis
         
-def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool = False, 
-                   teste_monta_f_obj:bool = False, teste_monta_restricao:bool = False, teste_forma_padrao:bool = False):
+def std_matrix_to_str_problem(A, b, c, x, tipo_funcao:str = "max", decimal:bool = False):
+    """
+    Converte uma matriz de programação linear em sua forma padrão para string.
+    Args:
+        A (list): matriz de coeficientes
+        b (list): vetor de constantes
+        c (list): vetor de coeficientes da função objetivo
+        x (list): lista de variáveis
+        tipo_funcao (str): "max" ou "min"
+        decimal (bool): se True, retorna a função com termos em 0
+    Returns:
+        str: problema transformado para forma padrão
+    """
+    # Monta a função objetivo
+    A = [[-2, -1, 1, 0],
+        [-1, -1, 0, 1],
+        [0, 1, 0, 0]],
+    b = [Fraction(2, 3), Fraction(26, 5), Fraction(0, 1)]
+    c = [Fraction(3, 2), Fraction(2), Fraction(0, 1), Fraction(0, 1)]
+    x = ["x1", "x2", "s1", "s2"]
+    constantes_e_variaveis = dict(zip(x, c))
+    f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis, standard_form=True, detailed=True, decimal=decimal)
+    
+    # Monta as restrições
+    restricoes = []
+    for i in range(len(A[0])):
+        constantes_lhs = A[0][i]
+        variaveis_lhs = x
+        simbolo = "="
+        valor_rhs = b[i]
+        constantes_e_variaveis_lhs = dict(zip(variaveis_lhs, constantes_lhs))
+        forma_padrao_restricao, _ = monta_restricao(constantes_e_variaveis_lhs, simbolo, valor_rhs, standard_form=(True, "s1"),
+                                                     detailed=True, decimal=decimal)
+        restricoes.append(forma_padrao_restricao)
+    
+    # Monta o problema final
+    std_problem = f_obj + "\n"
+    for restricao in restricoes:
+        std_problem += restricao + "\n"
+    
+    logger.debug(f"Função objetivo de matriz para padrão: \n{std_problem.strip()}")
+    return std_problem.strip()
+        
+def bateria_testes_str_padrao_problema(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool = False, 
+                   teste_monta_f_obj:bool = False, teste_monta_restricao:bool = False, teste_forma_padrao:bool = False, 
+                   teste_problema_padrao_matriz:bool = False):
     # Testes para extrair_f_obj
     if teste_extrai_f_obj:
+        logger.info(f"Iniciando testes para extrair_f_obj")
         teste1 = "max 3/2π1 + 2y2"
         teste2 = "MIN 3/2Φ1 + 2Φ2 + 3Φ3"
         teste3 = "MIN 1.5x1"
@@ -415,6 +502,7 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
     
     # Testes para extrair_restricao
     if teste_extrai_restricao:
+        logger.info(f"Iniciando testes para extrair_restricao")
         t1 = "2x1 + π2 + 3x4 ≥ 2/3"
         t2 = "π1 + 2x2 ≤ 5.2"
         t3 = "-x1 + p2 + s3 = -2"
@@ -425,6 +513,7 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
     
     # Testes para monta_f_obj
     if teste_monta_f_obj:
+        logger.info("Iniciando testes para monta_f_obj")
         t1 = ("max 3/2π1 + 2y2", True, False, "max 3/2π1 + 2y2")
         t2 = ("min -3/2x1 + 2x2 + 0x3", True, False, "min -3/2x1 + 2x2 + 0x3")
         t3 = ("min -3/2x1 + 2x2 + 0x3", False, False, "min -3/2x1 + 2x2")
@@ -439,7 +528,6 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
             except AssertionError as e:
                 print(f"Erro no teste: {teste[0]}, valor calculado: {str_f_obj}, valor esperado: {teste[3]}")
                 raise e
-        print("Primeiro round de testes passou, começando o segundo round (forma padrão)...")
         
         t1 = ("max 3/2π1 + 2y2", False, "MIN -3/2π1 - 2y2")
         t2 = ("min -3/2x1 + 2x2 + 0x3", False, "min -3/2x1 + 2x2 + 0x3")
@@ -459,12 +547,12 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
     # Testes para monta_restricao
     if teste_monta_restricao:
         logger.info("Iniciando testes para monta_restricao")
-        t1 = ("2x1 + π2 + 3x4 ≥ 2/3", (False, "s1"), {"detailed": True, "decimal": False}, ("2x1 + π2 + 3x4 ≥ 2/3", False))
-        t2 = ("2x1 + π2 + 3x4 ≥ 2/3", (True, "s1"), {"detailed": True, "decimal": False}, ("-2x1 - π2 - 3x4 + s1 = -2/3", True))
-        t3 = ("2x1 + π2 + 3x4 <= 2/3", (True, "s1"), {"detailed": True, "decimal": False}, ("2x1 + π2 + 3x4 + s1 = 2/3", True))
-        t4 = ("x1 >= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", False))    
-        t5 = ("x1 <= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 <= 0", False))
-        t6 = ("x1 <= 0", (True, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", True))
+        t1 = ("2x1 + π2 + 3x4 ≥ 2/3", (False, "s1"), {"detailed": True, "decimal": False}, ("2x1 + π2 + 3x4 ≥ 2/3", 0))
+        t2 = ("2x1 + π2 + 3x4 ≥ 2/3", (True, "s1"), {"detailed": True, "decimal": False}, ("-2x1 - π2 - 3x4 + s1 = -2/3", 1))
+        t3 = ("2x1 + π2 + 3x4 <= 2/3", (True, "s1"), {"detailed": True, "decimal": False}, ("2x1 + π2 + 3x4 + s1 = 2/3", 1))
+        t4 = ("x1 >= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", 0))    
+        t5 = ("x1 <= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 <= 0", 0))
+        t6 = ("x1 <= 0", (True, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", 2))
         testes = [t1, t2, t3, t4, t5, t6]
         
         for teste in testes:
@@ -530,11 +618,48 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
                     print(f"Erro na linha {i}, valor calculado: {y}, valor esperado: {x}")
                     raise e
          
-str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")       
+    if teste_problema_padrao_matriz:
+        logger.info("Iniciando testes para str_problem_to_std_form_matrix")
+        # Teste 1
+        problem1 = ("""min x1 + 2x2
+            2x1 + x2 ≥ 2/3
+            x1 + x2 ≥ 1
+            x2 = 2
+            x1 >= 0
+            x2 >= 0""", {"decimal": False})
+        
+        ans1 = {"c": [1, 2, 0, 0],
+                "b": [Fraction(-2, 3), -1, 2],
+                "A": [[-2, -1, 1, 0],
+                      [-1, -1, 0, 1],
+                      [0, 1, 0, 0]],
+                "x": ["x1", "x2", "s1", "s2"]}
+        problems = [problem1]
+        answers = [ans1]
+        
+        for ans, problem in zip(answers, problems):
+            #print(problem)
+            #print(problem_ans)
+            A, b, c, x = str_problem_to_std_form_matrix(problem[0], decimal=problem[1]["decimal"])
+            try:
+                assert A == ans["A"]
+                assert b == ans["b"]
+                assert c == ans["c"]
+                assert x == ans["x"]
+            except AssertionError as e:
+                print(f"Erro no teste: {problem[0]}")
+                for str_mat, ans_mat in zip([A, b, c, x], [ans["A"], ans["b"], ans["c"], ans["x"]]):
+                    print(f"calculado\n{str_mat}\nesperado\n{ans_mat}")
+                raise e
+    
+std_matrix_to_str_problem([], [], [], [], tipo_funcao="max", decimal=False)
+         
+#str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")       
+
+
 #str_problem_to_standard_form("", detailed=True)
 
-#bateria_testes(teste_forma_padrao=True)
-
+#bateria_testes_str_padrao_problema(True, True, True, True, True, True)
 
 
 
@@ -545,6 +670,3 @@ str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")
 
 
 # π, Φ
-# TODO: 1. pegar todas as variáveis de todas restrições para montar o conjunto de todas variáveis
-#       2. colocar na forma padrao
-#       3. formatar a forma padrao com 0's se precisar em detailed
