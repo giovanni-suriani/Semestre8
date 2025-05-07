@@ -1,12 +1,15 @@
 import re
 import logging
 from fractions import Fraction
+from pprint import pprint
+import sympy as sp
+from sympy import Matrix, pprint, pretty
 
 Fraction.__str__
 
 
 logger = logging.basicConfig(
-    level=logging.INFO, format="%(levelname)s:%(funcName)s:%(message)s"
+    level=logging.DEBUG, format="%(levelname)s:%(funcName)s:%(message)s"
 )
 
 logger = logging.getLogger(__name__)
@@ -254,17 +257,20 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
                 if constant_foo < 0:
                     change_var = 2
                     lhs = standard_display_variable(constant_foo, variable_foo, first_var=True, decimal=decimal)
-                    logger.debug(f"{lhs} {simbolo} {valor_rhs} {change_var}")
+                    if VERBOSE:
+                        logger.debug(f"{lhs} {simbolo} {valor_rhs} {change_var}")
                     return f"{lhs} {simbolo} {valor_rhs}", change_var
                 else:
                     lhs = standard_display_variable(constant_foo, variable_foo, first_var=True, decimal=decimal)
-                    logger.debug(f"{lhs} {simbolo} {valor_rhs} {change_var}")
+                    if VERBOSE:
+                        logger.debug(f"{lhs} {simbolo} {valor_rhs} {change_var}")
                     return f"{lhs} {simbolo} {valor_rhs}", change_var
             elif (simbolo == "<=" or simbolo == "≤") and valor_rhs == 0:
                 if constant_foo > 0:
                     change_var = 2
                     lhs = standard_display_variable(constant_foo, variable_foo, first_var=True, decimal=decimal)
-                    logger.debug(f"{lhs} >= {valor_rhs} {change_var}")
+                    if VERBOSE:
+                        logger.debug(f"{lhs} >= {valor_rhs} {change_var}")
                     return f"{lhs} >= {valor_rhs}", change_var
                 else:
                     lhs = standard_display_variable(constant_foo, variable_foo, first_var=True, decimal=decimal)
@@ -278,7 +284,7 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
             valor_rhs = -valor_rhs
             for variavel, constante in constantes_e_variaveis_lhs.items():
                 constantes_e_variaveis_lhs[variavel] = -constante
-        if simbolo is not "=":
+        if simbolo != "=":
             constantes_e_variaveis_lhs[standard_form[1]] = 1
             simbolo = "="
             change_var = 1
@@ -293,7 +299,8 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
             lhs += standard_display_variable(constante, variavel, primeira, show_zero=detailed, decimal=decimal)
         else:
             lhs += " " + standard_display_variable(constante, variavel, primeira, show_zero=detailed, decimal=decimal)
-    logger.debug(f"{lhs.strip()} {simbolo} {valor_rhs} {change_var}")
+    if VERBOSE:
+        logger.debug(f"{lhs.strip()} {simbolo} {valor_rhs} {change_var}")
     return f"{lhs.strip()} {simbolo} {valor_rhs}", change_var
             
     # Segundo, variávies de folga
@@ -361,6 +368,32 @@ def str_problem_to_standard_form(problem, detailed:bool = False, decimal:bool = 
     return std_problem
     logger.debug(f"Função objetivo antiga: \n{problem}")
     logger.debug(f"////////////\nFunção objetivo padrão: \n{std_problem}")
+        
+def str_problem_to_std_form_matrix (problem, decimal:bool = False): 
+    problem = """min 3/2x1 + 2x2
+              2x1 + x2 + 3x4 ≥ 2/3
+              2x1 + x2 + x4 ≥ 1"""
+    std_problem = str_problem_to_standard_form(problem, detailed=True, decimal=decimal)
+    std_problem = std_problem.split("\n")
+    tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(std_problem[0])
+    # Matriz de coeficientes c
+    c = constantes
+    restricoes = std_problem[1:]
+    # Matriz de coeficientes A
+    A = []
+    b = []
+    for restricao in restricoes:
+        constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(restricao)
+        A.append(constantes_lhs)
+        b.append(valor_rhs)
+    A_matrix = Matrix(A)
+    B_matrix = Matrix(b)
+    c_matrix = Matrix(c)
+
+    # Mostra bonitinho no console
+    # Mostra bonitinho no log (como string)
+    logger.debug("\nMatriz A \n" + pretty(A_matrix) + "\n Matriz B \n" + pretty(Matrix(b)) + "\n Matriz C \n" + pretty(Matrix(c)))
+       
         
 def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool = False, 
                    teste_monta_f_obj:bool = False, teste_monta_restricao:bool = False, teste_forma_padrao:bool = False):
@@ -450,52 +483,65 @@ def bateria_testes(teste_extrai_f_obj:bool = False, teste_extrai_restricao:bool 
     if teste_forma_padrao:
         logger.info("Iniciando testes para str_problem_to_standard_form")
         # Teste 1
-        problem = """min x1 + 2x2
+        problem1 = ("""min x1 + 2x2
                 2x1 + x2 ≥ 2/3
                 x1 + x2 ≥ 1
                 x2 = 2
                 x1 >= 0
-                x2 <= 0"""
+                x2 <= 0""", {"detailed": False, "decimal": False})
                 
-        problem_std = """min x1 - 2x2 
+        problem_ans1 = """min x1 - 2x2 
                 -2x1 - x2 + s1 = -2/3
                 -x1 - x2 + s2 = -1
-                x2 + s3 = 2
+                x2 = 2
                 x1 >= 0
                 x2 >= 0"""
                 
-        problem_std = problem_std.split("\n")
-        ans_std = [x.lstrip() for x in problem_std]
-        std_problem = str_problem_to_standard_form(problem, detailed=False)
-        std_problem = std_problem.split("\n")
-        for i, (x, y) in enumerate(zip(ans_std, std_problem)):
-            try: 
-                print(f"Comparando {x} e {y}")
-                assert x.strip() == y
-            except AssertionError as e:
-                print(f"Erro na linha {i}, valor calculado: {y}, valor esperado: {x}")
-                raise e
+        problem2 = ("""max π1 + 2π2
+                2π1 + π2 ≥ 4
+                7π1 + π2 <= 1
+                -π2 = 2
+                π1 <= 0
+                π2 >= 0""", {"detailed": True, "decimal": False})
+                
+        problem_ans2 = """MIN π1 - 2π2 + 0s1 + 0s2
+                -2π1 - π2 + s1 + 0s2 = -4
+                7π1 + π2 + 0s1 + s2 = 1
+                0π1 - π2 + 0s1 + 0s2 = 2
+                π1 >= 0
+                π2 >= 0"""
         
-       
-        
+        problems = [problem1, problem2]
+        problems_ans = [problem_ans1, problem_ans2]
+        for problem, problem_ans in zip(problems, problems_ans):
+            #print(problem)
+            #print(problem_ans)
+            problem_ans = problem_ans.split("\n")
+            problem_ans = [x.lstrip() for x in problem_ans]
+            std_problem = str_problem_to_standard_form(problem[0], detailed=problem[1]["detailed"], 
+                                                        decimal=problem[1]["decimal"])
+            std_problem = std_problem.split("\n")
+            for i, (x, y) in enumerate(zip(problem_ans, std_problem)):
+                try: 
+                    if VERBOSE:
+                        logging.debug(f"Comparando {x} e {y}")
+                    assert x.strip() == y
+                except AssertionError as e:
+                    print(f"Erro na linha {i}, valor calculado: {y}, valor esperado: {x}")
+                    raise e
+         
+str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")       
 #str_problem_to_standard_form("", detailed=True)
 
-bateria_testes(teste_forma_padrao=True)
+#bateria_testes(teste_forma_padrao=True)
+
+
+
 
 #bateria_testes()
 
 # str_problem_to_matrix("")
 
-
-def str_problem_to_matrix (problem): 
-    problem = """min 3/2x1 + 2x2
-              2x1 + x2 + 3x4 ≥ 2/3"""
-    problem = problem.split("\n")
-    #print(problem[0])
-    tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(problem[0])      
-    c = constantes
-    for restricao in problem[1:]:
-        constantes_lhs, variaveis_lhs, simbolo, valor = extrai_restricao(restricao)
 
 
 # π, Φ
