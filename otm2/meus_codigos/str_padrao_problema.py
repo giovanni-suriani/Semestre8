@@ -155,22 +155,29 @@ def extrai_restricao(restricao:str):
     """
     padrao = re.compile(
     r'(?P<restricao_lhs>('                     # ← início do grupo nomeado para lado esquerdo
-        r'([-+]?\s*'                         # sinal opcional
-        r'(\d+(\.\d+)?|\d+/\d+)?'          # constante (inteiro, decimal ou fração)
-        r'\s*\w\d+\s*)+'                       # variável com número (ex: π1, x2)
-    r'))\s*'                                   # ← fecha grupo restricao_lhs e ignora espaços
-    r'(?P<restricao_simbolo><=|>=|<|>|=|≥|≤|irrestrito)'      # símbolo de comparação
-    r'\s*'                                     # ignora espaços ao redor do símbolo
-    r'(?P<restricao_rhs>('                     # ← grupo nomeado para lado direito
-        r'[-+]?\s*(?:\d+/\d+|\d+(?:\.\d+)?)'    # constante do lado direito
-    r'))',
+        r'([-+]?\s*'
+        r'(\d+(\.\d+)?|\d+/\d+)?'
+        r'\s*[^\W\d_]\d+\s*)+'                 # variável com número (ex: π1, x2)
+    r'))\s*'
+    r'(?:'                                      # ← início da escolha entre dois caminhos (opcionalidade)
+        r'(?P<simbolo_com_rhs><=|>=|<|>|=|≥|≤)'  # símbolo de comparação
+        r'\s*'
+        r'(?P<restricao_rhs>('
+            r'[-+]?\s*(?:\d+/\d+|\d+(?:\.\d+)?)'
+        r'))'
+    r'|'
+        r'(?P<simbolo_irrestrito>irrestrito)'   # literal "irrestrito", sem RHS
+    r')\s*$',
     re.UNICODE
-    )
+)
     match = re.search(padrao, restricao)
     assert match, f"Expressão inválida {restricao}"
     restricao_lhs = match.group("restricao_lhs")
-    restricao_simbolo = match.group("restricao_simbolo")
-    restricao_rhs = Fraction(match.group("restricao_rhs"))
+    restricao_simbolo = match.group("simbolo_com_rhs") or match.group("simbolo_irrestrito")
+    if restricao_simbolo == "irrestrito":
+        restricao_rhs = 0
+    else:
+        restricao_rhs = Fraction(match.group("restricao_rhs"))
     constantes_lhs, variaveis_lhs = extrair_constantes_e_variaveis(restricao_lhs)
     #logger.debug(f"Restrição LHS: {restricao_lhs}, Simbolo: {restricao_simbolo}, Valor: {restricao_rhs}")
     if VERBOSE:
@@ -266,7 +273,7 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
         str: restrição montada
         int: nada acontece = 0, variavel adicionada = 1, variavel alterada = 2   
     """
-    # Checando se é restrição x1 >= 0 ou 
+    # Checando se é restrição x1 >= 0 ou irrestrita
     non_zero_var = 0
     constantes_lhs = list(constantes_e_variaveis_lhs.values())
     
@@ -278,6 +285,11 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
             variable_foo = variavel
             
     change_var = 0
+    
+    if simbolo == "irrestrito":
+        if VERBOSE:
+            logger.debug(f"{standard_display_variable(abs(constant_foo), variable_foo, True)} irrestrito")
+        return f"{standard_display_variable(abs(constant_foo), variable_foo, True)} irrestrito", 0
     
     # Checando se é restrição x1 >= 0 ou <= 0
     if standard_form[0] is True:
@@ -518,10 +530,13 @@ def bateria_testes_str_padrao_problema(teste_extrai_f_obj:bool = False, teste_ex
         t1 = "2x1 + π2 + 3x4 ≥ 2/3"
         t2 = "π1 + 2x2 ≤ 5.2"
         t3 = "-x1 + p2 + s3 = -2"
+        t4 = "x1 irrestrito"
         
-        assert extrai_restricao(t1) == ([Fraction(2, 1), Fraction(1, 1), Fraction(3, 1)], ["x1", "π2", "x4"], "≥", Fraction(2, 3))
+        assert extrai_restricao(t1) == ([Fraction(2, 1), Fraction(1, 1), Fraction(3, 1)], ["x1", "π2", "x4"], "≥", 
+                                        Fraction(2, 3))
         assert extrai_restricao(t2) == ([Fraction(1, 1), Fraction(2, 1)], ["π1", "x2"], "≤", Fraction(26, 5))
         assert extrai_restricao(t3) == ([Fraction(-1, 1), Fraction(1, 1), Fraction(1, 1)], ["x1", "p2", "s3"], "=", Fraction(-2, 1))
+        assert extrai_restricao(t4) == ([1],["x1"], "irrestrito", 0)
     
     # Testes para monta_f_obj
     if teste_monta_f_obj:
@@ -565,7 +580,9 @@ def bateria_testes_str_padrao_problema(teste_extrai_f_obj:bool = False, teste_ex
         t4 = ("x1 >= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", 0))    
         t5 = ("x1 <= 0", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 <= 0", 0))
         t6 = ("x1 <= 0", (True, "s1"), {"detailed": False, "decimal": False}, ("x1 >= 0", 2))
-        testes = [t1, t2, t3, t4, t5, t6]
+        t7 = ("x1 irrestrito", (False, "s1"), {"detailed": False, "decimal": False}, ("x1 irrestrito", 0))
+        t8 = ("π2 irrestrito", (False, "s1"), {"detailed": False, "decimal": False}, ("π2 irrestrito", 0))
+        testes = [t1, t2, t3, t4, t5, t6, t7, t8]
         
         for teste in testes:
             #teste = t5
@@ -610,6 +627,16 @@ def bateria_testes_str_padrao_problema(teste_extrai_f_obj:bool = False, teste_ex
                 0π1 - π2 + 0s1 + 0s2 = 2
                 π1 >= 0
                 π2 >= 0"""
+        
+        # TODO:
+        problem3 = ("""max π1 + 2π2
+            2π1 + π2 ≥ 4
+            7π1 + π2 <= 1
+            -π2 = 2
+            π1 <= 0
+            π2 irrestrito""", {"detailed": True, "decimal": False}) 
+        
+        
         
         problems = [problem1, problem2]
         problems_ans = [problem_ans1, problem_ans2]
@@ -702,7 +729,7 @@ def check_health_status():
     bateria_testes_str_padrao_problema(True, True, True, True, True, True, True)
     logger.info("Todos os testes passaram com sucesso!")
 
-#bateria_testes_str_padrao_problema(teste_matriz_para_problema_padrao=True)
+#bateria_testes_str_padrao_problema(teste_extrai_restricao=True)
 
 check_health_status()
 
