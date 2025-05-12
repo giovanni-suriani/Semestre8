@@ -4,18 +4,29 @@ import logging
 import settings
 import re
 import str_padrao_problema as spp
+import sys, os
 from sympy import Matrix, pprint, pretty
 
-logging.config.dictConfig(settings.LOGGING)
-logger = logging.getLogger("primal_dual")  # __main__
+""" Módulo de transformação de problemas primais em problemas duais e vice-versa."""
+
+#logging.config.dictConfig(settings.LOGGING)
+logger = logging.getLogger("top_module.child")  
+
+if not logger.hasHandlers() and __name__ == '__main__':
+    logging.config.dictConfig(settings.LOGGING)
+    logger = logging.getLogger("top_module")  # __main__
+    print(f"sem handler, executando como top_module o arquivo {os.path.basename(__file__)}")
+
 logger.debug("primal_dual.py")
-logger.getChild("str_padrao_problema").setLevel(logging.INFO)
+
+import str_padrao_problema as spp
+
 
 VERBOSE = settings.VERBOSE
 
-EXPLAIN = settings.PRECISO_EXPLICAR
+explain = settings.PRECISO_EXPLICAR
 
-teste_gpt = spp.teste_gpt()
+#teste_gpt = spp.teste_gpt()
 
 
 # Variaveis primais 
@@ -77,7 +88,7 @@ def check_neg_variables(constraints:list):
                 neg_variables.append(variable)
     return neg_variables
         
-def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal", 
+def str_primal_to_dual(f_obj:str, constraints:list, current_relation:str="primal", 
                        allow_neg_variables:bool=False, infer_var_signs:bool=True, decimal:bool=False):
     """ 
     Converte um problema primal, transformando todas as variaveis em NÃO-NEGATIVAS, exceto irrestritas, para o seu dual.
@@ -86,7 +97,7 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
     variaveis_primais = ["x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8", "x9", "x10"]
     variaveis_duais = ["π1", "π2", "π3", "π4", "π5", "π6", "π7", "π8", "π9", "π10"]
     new_relacao = ""
-    logger.info(f"Restricoes do tipo -x1 <= 0 serao convertidas para x1 >= 0 XD")
+    logger.debug(f"Restricoes do tipo -x1 <= 0 serao convertidas para x1 >= 0 XD")
     
     
     
@@ -115,10 +126,10 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
     non_variable_constraints = spp.extract_non_var_constraints(constraints)
     non_variable_constraints_symbols = spp.extract_constraints_signs(non_variable_constraints) #
     
-    if relacao_atual.lower() == "primal":
+    if current_relation.lower() == "primal":
         new_vars_to_use = variaveis_duais
         new_relacao = "dual"
-    elif relacao_atual.lower() == "dual":
+    elif current_relation.lower() == "dual":
         new_vars_to_use = variaveis_primais
         new_relacao = "primal"
     
@@ -137,7 +148,7 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
                 new_non_variable_constraints_symbols.append(f"<=")
             elif symbol == "irrestrito":
                 new_non_variable_constraints_symbols.append(f"=")
-            if EXPLAIN:
+            if explain:
                 logger.info(f"Explicando: {variable_constraint} vira restricao {new_non_variable_constraints_symbols[-1]}" )
             
         for i, symbol in enumerate(non_variable_constraints_symbols):
@@ -151,11 +162,11 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
             elif symbol == "=":
                 var_constraint = f"{new_vars_to_use[i]} irrestrito"
                 new_variables_constraints.append(var_constraint)
-            if EXPLAIN:
+            if explain:
                 logger.info(f"Explicando: restricao de {symbol} vira variavel {new_variables_constraints[-1]}" )
         
         new_func_type = "max"
-        if EXPLAIN:
+        if explain:
             logger.info(f"Explicando: funcao objetivo '{func_type}' vira '{new_func_type}'")
             
     elif func_type.lower() == "max":
@@ -170,7 +181,7 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
             elif symbol == "=":
                 var_constraint = f"{new_vars_to_use[i]} irrestrito"
                 new_variables_constraints.append(var_constraint)
-            if EXPLAIN:
+            if explain:
                 logger.info(f"Explicando: restricao de {symbol} vira variavel {new_variables_constraints[-1]}" )
         
         for variable_constraint in variables_constraints:
@@ -181,11 +192,11 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
                 new_non_variable_constraints_symbols.append(f">=")
             elif symbol == "irrestrito":
                 new_non_variable_constraints_symbols.append(f"=")
-            if EXPLAIN:
+            if explain:
                 logger.info(f"Explicando: {variable_constraint} vira restricao {new_non_variable_constraints_symbols[-1]}" )
         
         new_func_type = "min"
-        if EXPLAIN:
+        if explain:
             logger.info(f"Explicando: funcao objetivo '{func_type}' vira '{new_func_type}'")
     
     # Assembling the dual problem
@@ -207,12 +218,15 @@ def str_primal_to_dual(f_obj:str, constraints:list, relacao_atual:str="primal",
     
     return f_obj_output, constraints_output, new_relacao
 
-def primal_to_dual_matrixes(A, b, c, standard_form: bool, constraints):
+def matrix_primal_to_dual(A, b, c, x, current_relation:str="primal", standard_form:bool=False):
+    """ 
+    Converte um problema primal ou dual na forma de matriz para o seu dual
+    """
     pass
-    
+   
 def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                                   test_dual_to_primal:bool=False):
-    logger.info("Bateria de testes iniciando ...")
+    logger.info("Iniciando com os testes de primal dual ...")
     # Testes para a funcao str_primal_to_dual
     if test_primal_to_dual:
         logger.info("Iniciando testes para test_primal_to_dual")
@@ -223,17 +237,17 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                             "3/2x1 + x2 <= 5", 
                             "x1 >= 0",
                             "x2 >= 0"],
-            "relacao_atual": "primal",
+            "current_relation": "primal",
             "allow_neg_variables": False,
             "infer_var_signs": False,
             "decimal": False,
             "result": {
-                "f_obj": "min 4π1 + 5π2",
+                "f_obj": "max 4π1 + 5π2",
                 "constraints": ["π1 + 3/2π2 <= 2", 
                                 "π1 + π2 <= 3", 
                                 "π1 <= 0", 
                                 "π2 <= 0"],
-                "relacao_atual": "dual",
+                "current_relation": "dual",
             }
         }
         
@@ -242,7 +256,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
             "constraints": ["x1 + x2 <= 4", 
                             "3/2x1 + x2 <= 5", 
                             "-x1 >= 0"],
-            "relacao_atual": "primal",
+            "current_relation": "primal",
             "allow_neg_variables": False,
             "infer_var_signs": True,
             "decimal": False,
@@ -252,7 +266,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                                 "π1 + π2 <= 3", 
                                 "π1 <= 0", 
                                 "π2 <= 0"],
-                "relacao_atual": "dual",
+                "current_relation": "dual",
             }
         }
         
@@ -262,7 +276,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                             "3/2x1 + x2 >= 5", 
                             "-x1 >= 0",
                             "x2 >= 0"],
-            "relacao_atual": "primal",
+            "current_relation": "primal",
             "allow_neg_variables": True,
             "infer_var_signs": False,
             "decimal": False,
@@ -272,7 +286,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                                 'π1 + π2 <= 3', 
                                 'π1 <= 0', 
                                 'π2 >= 0'],
-                "relacao_atual": "dual",
+                "current_relation": "dual",
             }
         }
         
@@ -282,7 +296,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                             "3/2x1 + x2 >= 5", 
                             "-x1 >= 0",
                             "x2 >= 0"],
-            "relacao_atual": "primal",
+            "current_relation": "primal",
             "allow_neg_variables": False,
             "infer_var_signs": True,
             "decimal": False,
@@ -292,7 +306,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                                 'π1 + π2 >= -3', 
                                 'π1 >= 0', 
                                 'π2 <= 0'],
-                "relacao_atual": "dual",
+                "current_relation": "dual",
             }
         }
         
@@ -303,7 +317,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                 "1.5π1 + π2 >= 5", 
                 "π1 >= 0",
                 "π2 >= 0"],
-            "relacao_atual": "dual",
+            "current_relation": "dual",
             "allow_neg_variables": False,
             "infer_var_signs": True,
             "decimal": True,
@@ -313,7 +327,7 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
                                 'x1 + x2 >= -1', 
                                 'x1 >= 0', 
                                 'x2 <= 0'],
-                "relacao_atual": "primal",
+                "current_relation": "primal",
             }
         }
         
@@ -321,28 +335,38 @@ def bateria_de_testes_primal_dual(test_primal_to_dual:bool=False,
         for i, teste in enumerate(tests):
             f_obj = teste["f_obj"]
             constraints = teste["constraints"]
-            relacao_atual = teste["relacao_atual"]
+            current_relation = teste["current_relation"]
             allow_neg_variables = teste["allow_neg_variables"]
             infer_var_signs = teste["infer_var_signs"]
             decimal = teste["decimal"]
             try:
-                f_obj_output, constraints_output, relacao = str_primal_to_dual(f_obj, constraints, relacao_atual, allow_neg_variables, infer_var_signs, decimal)
+                f_obj_output, constraints_output, relacao = str_primal_to_dual(f_obj, constraints, current_relation, allow_neg_variables, infer_var_signs, decimal)
                 assert f_obj_output == teste["result"]["f_obj"]
                 assert constraints_output == teste["result"]["constraints"]
-                assert relacao == teste["result"]["relacao_atual"]
+                assert relacao == teste["result"]["current_relation"]
             except AssertionError as e:
                 logger.error(f"Erro no teste {i+1}")
                 logger.error(f"\nvalor calculado: {f_obj_output} \nvalor esperado: {teste['result']['f_obj']}")
                 logger.error(f"\nvalor calculado: {constraints_output} \nvalor esperado: {teste['result']['constraints']}")
-                logger.error(f"\nvalor calculado: {relacao} \nvalor esperado: {teste['result']['relacao_atual']}")
-            #str_primal_to_dual(f_obj, constraints, relacao_atual, allow_neg_variables, infer_var_signs)
+                logger.error(f"\nvalor calculado: {relacao} \nvalor esperado: {teste['result']['current_relation']}")
+                raise e
+            #str_primal_to_dual(f_obj, constraints, current_relation, allow_neg_variables, infer_var_signs)
     
     logger.info("Bateria de testes finalizada.")        
-            
-bateria_de_testes_primal_dual(test_primal_to_dual=True)
+   
+#bateria_de_testes_primal_dual(test_primal_to_dual=True)
 
 def check_health_status():
-    bateria_de_testes_primal_dual(True)
+    try:
+        logger.setLevel(logging.INFO)
+        explain = False
+        bateria_de_testes_primal_dual(True)
+        logger.info("Todos os testes passaram com sucesso!")
+    except Exception as e:
+        logger.error("Erro nos testes utilitarios ou de primal_dual")
+        logger.error(e)
+        raise e
     
 
+# Checar caso primal -> dual -> primal  no test_primal_to_dual
 # Implementar no str_padrao_problema o caso de variaveis negativas para monta_restricao forma padrao

@@ -2,16 +2,31 @@ import str_padrao_problema as spp
 import primal_dual as pd
 import logging
 import settings
+import time
 
 logging.config.dictConfig(settings.LOGGING)
-logger = logging.getLogger("primal_dual")  # __main__
-logger.debug("primal_dual.py")
-logger.getChild("str_padrao_problema").setLevel(logging.INFO)
+logger = logging.getLogger("top_module") 
+#logger.setLevel(logging.INFO)
 
 #VERBOSE = True
 
 spp.check_health_status()
-#pd.chec
+pd.check_health_status()
+
+""" try:
+    spp.check_health_status()
+    pd.check_health_status()
+except Exception as e:
+    logger.error(f"Error checking health status: {e}")
+    raise     """
+
+#settings.print_with_delay("pd is healthy")
+
+# wait 0.5 seconds
+
+
+
+#pd.check_health_status()
 """ 
 manutencao em:
 standard display

@@ -4,19 +4,20 @@ from fractions import Fraction
 from pprint import pprint
 import sympy as sp
 from sympy import Matrix, pprint, pretty
-import sys
+import sys, os
 
 Fraction.__str__
 import settings
 
 # logging.config.dictConfig(settings.LOGGING)
-logger = logging.getLogger("primal_dual.str_padrao_problema")
-if not logger.hasHandlers() and __name__ == "__main__":
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setFormatter(logging.Formatter('%(levelname)s %(name)s %(funcName)s: %(message)s'))
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(handler)
+#logging.config.dictConfig(settings.LOGGING)
+logger = logging.getLogger("top_module.child")  
 
+if not logger.hasHandlers() and __name__ == '__main__':
+    logging.config.dictConfig(settings.LOGGING)
+    logger = logging.getLogger("top_module")  # __main__
+    print(f"sem handler, executando como top_module")
+    
 logger.debug("str_padrao_problema.py")
 
 VERBOSE = settings.VERBOSE
@@ -42,8 +43,9 @@ class LinhaRestricao:
         def __repr__(self):
             return self.__str__()
  """
+
 def teste_gpt():
-    logger.debug("teste_gpt")
+    logger.info(f"teste_gpt {logger.name}")
 
 def convert_if_str_float_is_int(value:str) -> str:
     """
@@ -916,6 +918,7 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
                                 test_extract_variables_problem:bool=False,
                                 test_extract_ge_le_constraints:bool=False,
                                ):
+    logger.debug(f"Testes utilitarios")
     # Testes para standard_display_variable
     if test_standard_display_variable:
         t1 = {
@@ -1755,15 +1758,20 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
 def check_health_status():
     logger.level = logging.INFO
     logger.info("Iniciando com os testes utilitarios ...")
-    bateria_testes_utilitarios(True, True, True, True, True, True, True, True, True)
-    logger.info("Testes utilitarios passaram com sucesso!")
-    logger.info("Iniciando com os testes de str_padrao_problema ...")
-    bateria_testes_str_padrao_problema(True, True, True, True, True, True, True, True, True, True)
-    logger.info("Todos os testes passaram com sucesso!")
+    try:
+        bateria_testes_utilitarios(True, True, True, True, True, True, True, True, True)
+        logger.info("Testes utilitarios passaram com sucesso!")
+        logger.info("Iniciando com os testes de str_padrao_problema ...")
+        bateria_testes_str_padrao_problema(True, True, True, True, True, True, True, True, True, True)
+        logger.info("Todos os testes passaram com sucesso!")
+    except Exception as e:
+        logger.error("Erro nos testes utilitarios ou de str_padrao_problema")
+        logger.error(e)
+        raise e
 
 # bateria_testes_str_padrao_problema(test_monta_f_obj=True)
 
-bateria_testes_utilitarios(test_standard_display_variable=True)
+#bateria_testes_utilitarios(test_standard_display_variable=True)
 
 # bateria_testes_str_padrao_problema(teste_forma_padrao=True,teste_problema_padrao_matriz=True)
 

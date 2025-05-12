@@ -36,7 +36,8 @@
 		"prefix": "valoresperadocalculado",
 		"body": [
 			"logger.error(f'Erro no teste {i + 1}')",
-			"logger.error(f\"\nvalor calculado: {calculated}\nvalor  esperado: {result}\")"
+			"logger.error(f\"\nvalor calculado: {calculated}\nvalor  esperado: {result}\")",
+			"raise e",
 		],
 		"description": "logger.error"
 	},

@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 VERBOSE = False
 
-PRECISO_EXPLICAR = True
+PRECISO_EXPLICAR = False
 
 LOGGING = {
     "version": 1,
@@ -39,24 +39,52 @@ LOGGING = {
         },
     },
     "loggers": {
-        "primal_dual": {
+        "top_module": {
             "handlers": ["console"],
             "level": "DEBUG",
-            "propagate": False,
+            "propagate": True,
         },
-        "primal_dual.str_padrao_problema": { # Logger filho de primal_dual
-            "level": "DEBUG",
-            "propagate": True,         # <- agora sim, bloqueia propagação para o pai
+        "top_module.child": {
+            "level": "INFO",
+            "propagate": True,
+        },
+        #"solve_simplex_tabela.primal_dual": {
+        #    "level": "DEBUG",
+        #    "propagate":  True,
+        #},
+        #"solve_simplex_tabela.primal_dual.str_padrao_problema": { # Logger filho de primal_dual
+        #    "level": "DEBUG",
+        #    "propagate": True,         # <- agora sim, bloqueia propagação para o pai
             #"handlers": [],             # <- sem handler próprio
-        },
-        "__main__": { #  <- logger chamado quando usa getLogger(__name__)
-            "handlers": ["console"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
+        #},
+        # "__main__": { #  <- logger chamado quando usa getLogger(__name__)
+        #     "handlers": ["console"],
+        #     "level": "DEBUG",
+        #     "propagate": False,
+        # },
         # "root": {  #  <-  logger raiz
         #     "handlers": ["console"],
         #     "level": "DEBUG",
         # },
     },
 }
+
+import time
+def print_with_delay(words, delay = 0.01):
+    """
+    Imprime palavras com delays personalizados, tudo na mesma linha.
+
+    Args:
+        words (list | str): Lista de palavras ou string com palavras separadas por espaço.
+        delay (float): valor para dar de delay entre cada letra.
+                      Se não for fornecida, o delay padrão é 0.05 segundos.
+    """
+    if isinstance(words, str):
+        words = words.split(" ")
+        
+    for word in words:
+        for character in word:
+            print(character, end="", flush=True)
+            time.sleep(delay)
+        print(" ", end="", flush=True)
+    print()
