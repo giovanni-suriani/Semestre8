@@ -9,14 +9,14 @@ import sys
 Fraction.__str__
 import settings
 
-# logging.config.dictConfig(settings.LOGGING)
+#logging.config.dictConfig(settings.LOGGING)
 logger = logging.getLogger("primal_dual.str_padrao_problema")
 if not logger.hasHandlers() and __name__ == "__main__":
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(logging.Formatter('%(levelname)s %(name)s %(funcName)s: %(message)s'))
     logger.setLevel(logging.DEBUG)
     logger.addHandler(handler)
-
+    
 logger.debug("str_padrao_problema.py")
 
 VERBOSE = settings.VERBOSE
@@ -44,20 +44,6 @@ class LinhaRestricao:
  """
 def teste_gpt():
     logger.debug("teste_gpt")
-
-def convert_if_str_float_is_int(value:str) -> str:
-    """
-    Converte uma string que representa um número decimal em um inteiro, se possível.
-    Args:
-        value (str): valor a ser convertido
-    Returns:
-        str: valor convertido
-    """
-    float_value = float(value)
-    if float_value.is_integer():
-        return str(int(float_value))
-    else:
-        return value
 
 def display_matrix_f_obj1(A:list, b:list, c:list, x:list):
     """
@@ -167,7 +153,7 @@ def check_le_zero(constants_lhs:list, value_rhs:list, symbol:str = "≤") -> boo
                 return True
     return False
 
-def remove_ge_le_constraints(constraints:list) -> list:
+def remove_ge_le_constraints(restrictions:list) -> list:
     """
     Remove as restrições do tipo x >= 0 ou x <= 0 da lista de restricoes.
     Args:
@@ -176,43 +162,15 @@ def remove_ge_le_constraints(constraints:list) -> list:
         None
     """
     to_remove = []
-    for constraint in constraints:
-        constants, variables, symbol, value_rhs = extrai_restricao(constraint)
+    for restriction in restrictions:
+        constants, variables, symbol, value_rhs = extrai_restricao(restriction)
         if check_ge_zero(constants, value_rhs, symbol) or check_le_zero(constants, value_rhs, symbol):
-            to_remove.append(constraint)
+            to_remove.append(restriction)
 
-    for constraint in to_remove:
-        constraints.remove(constraint)
+    for restriction in to_remove:
+        restrictions.remove(restriction)
 
-def flip_symbol_in_constraint(constraint:str, flip_lhs:bool=True, flip_rhs:bool=True) -> str:
-    """
-    Troca o sinal da restrição ex: 2x1 + 3x2 <= 1 se torna -2x1 - 3x2 >= -1 \n
-    x1 >= 0 se torna x1 <= 0, 
-    Args:
-        constraint (str): string da restrição, ex: "2x1 + π2 + 3x4 ≥ 2/3"
-        flip_lhs (bool): se True, troca o sinal do lado esquerdo
-        flip_rhs (bool): se True, troca o sinal do lado direito
-    Returns:
-        str: string da restrição com o sinal trocado
-    """
-    constants_lhs, variables_lhs, symbol, value_rhs = extrai_restricao(constraint)
-    if symbol == ">=" or symbol == "≥":
-        symbol = "<="
-        if flip_lhs:
-            constants_lhs = [-constant for constant in constants_lhs]
-        if flip_rhs:
-            value_rhs = -value_rhs
-    elif symbol == "<=" or symbol == "≤":
-        symbol = ">="
-        if flip_lhs:
-            constants_lhs = [-constant for constant in constants_lhs]
-        if flip_rhs:
-            value_rhs = -value_rhs
-    elif symbol == "=":
-        logger.warning(f"Simbolo de igualdade passado, sem troca de sinal")
-    return monta_restricao(dict(zip(variables_lhs, constants_lhs)), symbol, value_rhs)[0]
-
-def change_variable_sign_in_constraints(variable:str, constraints:list, detailed = False) -> None:
+def change_variable_sign_in_restrictions(variable:str, restrictions:list, detailed = False) -> None:
     """ 
     Troca o sinal da variável nas restrições
     Args:
@@ -222,14 +180,14 @@ def change_variable_sign_in_constraints(variable:str, constraints:list, detailed
     Returns:
         None, procedimento
     """
-    for i, constraint in enumerate(constraints):
-        constants, variables, symbol, value_rhs = extrai_restricao(constraint)
+    for i, restriction in enumerate(restrictions):
+        constants, variables, symbol, value_rhs = extrai_restricao(restriction)
         constants_and_variables = dict(zip(variables, constants))
         if variable in variables:
             constants_and_variables[variable] = -constants_and_variables[variable]
-            constraints[i], _ = monta_restricao(constants_and_variables, symbol, value_rhs, detailed=detailed)
+            restrictions[i], _ = monta_restricao(constants_and_variables, symbol, value_rhs, detailed=detailed)
     
-    return constraints
+    return restrictions
 
 def change_variable_sign_in_f_obj(variable:str, f_obj:str, detailed:bool=False) -> str:
     """
@@ -250,7 +208,7 @@ def change_variable_sign_in_f_obj(variable:str, f_obj:str, detailed:bool=False) 
         raise ValueError(f"Variável '{variable}' não encontrada na função objetivo.")
     return monta_f_obj(function_type, constants_and_variables, standard_form=False, detailed=detailed)
 
-def adding_zero_vars_on_constants_variables_dict(constants_and_variables_owner:dict, constants_and_variables_expr:dict) -> dict:
+def adicionando_variaveis_zeradas_na_expr(constantes_e_variaveis_dono:dict, constantes_e_variaveis_expr:dict) -> dict:
     """
     Adiciona variáveis zeradas no dicionário de constantes e variáveis.
     Args:
@@ -260,13 +218,13 @@ def adding_zero_vars_on_constants_variables_dict(constants_and_variables_owner:d
         dict: dicionário atualizado com variáveis zeradas
     """
     new_dict = {}
-    for variable, _ in constants_and_variables_owner.items():
-        if variable not in constants_and_variables_expr:
-            new_dict[variable] = 0
+    for variavel, constante in constantes_e_variaveis_dono.items():
+        if variavel not in constantes_e_variaveis_expr:
+            new_dict[variavel] = 0
         else:
-            new_dict[variable] = constants_and_variables_expr[variable]
+            new_dict[variavel] = constantes_e_variaveis_expr[variavel]
     return new_dict
-
+        
 def str_list_fraction(fractions:list) -> str:
     """ Transforma uma lista de frações em uma string formatada.
     Args:
@@ -296,6 +254,7 @@ def extrair_constantes_e_variaveis(expr:str, extract_pure_constants:bool = False
         r'(?P<constante_pura>\b[+-]?\s*(?:\d+(?:\.\d+)?|\d+/\d+)?\b)',  
         re.UNICODE
     )
+
     termos = re.finditer(padrao, expr)
     constantes = []
     variaveis = []
@@ -463,19 +422,14 @@ def standard_display_variable(constante, variavel, first_var:bool, show_zero:boo
             elif constante == -1:
                 return f"-{variavel}"
             else:
-                var = convert_if_str_float_is_int(str(float(constante)))
-                return f"{var}{variavel}"
+                return f"{str(float(constante))}{variavel}"
         else:
-            if constante == 1:
-                return f"+ {variavel}"
+            if constante > 0:
+                return f"+ {str(float(constante))}{variavel}"
             elif constante == -1:
                 return f"- {variavel}"
-            elif constante > 0:
-                var = convert_if_str_float_is_int(str(float(constante)))
-                return f"+ {var}{variavel}"
             if constante < 0:
-                var = convert_if_str_float_is_int(str(abs(float(constante))))
-                return f"- {var}{variavel}"
+                return f"- {abs(str(float(constante)))}{variavel}"
         
     raise ValueError(f"Erro inesperado")
 
@@ -496,7 +450,7 @@ def monta_f_obj(tipo_funcao:str, constantes_e_variaveis:dict, standard_form:bool
         if tipo_funcao.lower() == "max":
             for variavel, constante in constantes_e_variaveis.items():
                 constantes_e_variaveis[variavel] = -constante
-            tipo_funcao = "min"
+            tipo_funcao = "MIN"
                 
     funcao_objetivo = f"{tipo_funcao} "
     for i, (variavel, constante) in enumerate(constantes_e_variaveis.items()):
@@ -524,8 +478,8 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
         decimal (bool): se True transforma os números em decimal
     Returns:
         tuple:
-            str: restrição montada\n
-            int: nada acontece = 0 
+            str: restrição montada,
+            int: nada acontece = 0, 
                 variavel adicionada = 1, 
                 variavel alterada = 2, 
                 duas variaveis adicionadas = 3 (variaveis irrestritas)  
@@ -579,8 +533,8 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
                     logger.debug(f"{lhs} >= {valor_rhs} {change_var}")
                     return f"{lhs} >= {valor_rhs}", change_var
     
-    # Deixando na forma de menor igual (<=)
     if standard_form[0] is True:
+        # Deixando na forma de menor igual
         if simbolo == ">=" or simbolo == "≥":
             simbolo = "<="
             valor_rhs = -valor_rhs
@@ -612,29 +566,17 @@ def monta_restricao(constantes_e_variaveis_lhs:dict, simbolo:str, valor_rhs:Frac
     return f"{lhs.strip()} {simbolo} {valor_rhs}", change_var
             
     # Segundo, variávies de folga
-
-def extract_variables_problem(f_obj:str="", constraints:list=[]) -> list:
-    """ 
-    Extrai as variáveis de um problema de programação linear.
-    A funcao objetivo e as restricoes sao opcionais
-    Args:
-        f_obj (str): função objetivo
-        restricoes (list): lista de restrições
-    Returns:
-        list: lista de variáveis
-    """
+    
+def extrai_variaveis_problema(problema:str) -> list:
     all_variables = []
-    if f_obj:
-        _ , _, _, variables = extrai_f_obj(f_obj)
-        all_variables.extend(variables)
-    if constraints:
-        for constraint in constraints:
-            _, variables_lhs, _, _ = extrai_restricao(constraint)
-            for variable in variables_lhs:
-                if variable not in all_variables:
-                    all_variables.append(variable)
+    tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(problema.split("\n")[0])
+    for restricao in problema.split("\n")[1:]:
+        constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(restricao)
+        for variavel in variaveis_lhs:
+            if variavel not in all_variables:
+                all_variables.append(variavel)
     return all_variables
-
+  
 def extract_ge_le_constraints(constraints:list, positive_lhs:bool = False) -> list:
     """
     Extrai as restrições do tipo x >= 0 ou x <= 0 de uma lista de restricoes.
@@ -660,19 +602,7 @@ def extract_ge_le_constraints(constraints:list, positive_lhs:bool = False) -> li
                 constraint = assemble_variables_constraints(variables_lhs, symbols=[symbol])[0]
             ge_le_constraints.append(constraint)
     return ge_le_constraints
-
-def extract_non_var_constraints(constraints:list) -> list:
-    """
-    Extrai as restrições que não são variáveis de uma lista de restricoes.
-    Args:
-        restricoes (list): lista de restrições
-    Returns:
-        list: lista de restrições que não são variáveis
-    """
-    non_var_constraints = constraints.copy()
-    remove_ge_le_constraints(non_var_constraints)
-    return non_var_constraints
-
+  
 def extract_constraints_signs(restricoes:list) -> list:
     """
     Extrai os sinais das restrições de uma lista de restricoes.
@@ -681,19 +611,19 @@ def extract_constraints_signs(restricoes:list) -> list:
     Returns:
         list: lista de sinais das restrições
     """
-    constraints_signs = []
+    restrictions_signs = []
     for restricao in restricoes:
         _, _, symbol, _ = extrai_restricao(restricao)
-        constraints_signs.append(symbol)
-    return constraints_signs
-
+        restrictions_signs.append(symbol)
+    return restrictions_signs
+    
 def assemble_variables_constraints(variables:list, symbols:list = [], 
                                    is_vars_on_standard_form:bool=False) -> list:
     """
     Monta restricoes do tipo "x1 >= 0", "x2 <= 0", "x3 irrestrito" "x4 = 0" a partir de variáveis e sinais.
     Args:
         variables (list): lista de variáveis
-        symbols (list): lista de sinais das restrições
+        restrictions_symbols (list): lista de sinais das restrições
         is_vars_on_standard_form (bool): se True, as variáveis estão na forma padrão( >=0 )
     Returns:
         list: lista de restricoes do tipo "x1 >= 0", "x2 <= 0", "x3 irrestrito" "x4 = 0"
@@ -709,8 +639,8 @@ def assemble_variables_constraints(variables:list, symbols:list = [],
         for variable in variables:
             variables_constraints.append(f"{standard_display_variable(1, variable, first_var=True)} >= 0")
     return variables_constraints
-
-def str_problem_to_standard_form(f_obj:str, constraints:list, detailed:bool = False, decimal:bool = False) -> str:
+    
+def str_problem_to_standard_form(problem, detailed:bool = False, decimal:bool = False) -> str:
     """ 
     Transforma um problema de programação linear em sua forma padrão.
     Args:
@@ -718,11 +648,11 @@ def str_problem_to_standard_form(f_obj:str, constraints:list, detailed:bool = Fa
         detailed (bool): se True, retorna a função com termos em 0
         decimal (bool): se True, retorna a função com termos em 0
     Returns:
-        Tuple:
-            - str: Funcao objetivo padrão
-            - list: restrições padrão
+        str: problema transformado para forma padrão
     """
-    restricoes = constraints
+    problem = problem.split("\n")
+    f_obj = problem[0]
+    restricoes = problem[1:]
     
     # Transforma as restricoes primeiro
     # tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(problem[0])
@@ -748,7 +678,7 @@ def str_problem_to_standard_form(f_obj:str, constraints:list, detailed:bool = Fa
                 # Trocando o sinal da variavel na funcao objetivo
                     constantes_e_variaveis_fobj[variavel] = -constantes_e_variaveis_fobj[variavel]
                 # Trocando sinal da variavel nas equacoes
-                    change_variable_sign_in_constraints(variavel, new_restricoes)
+                    change_variable_sign_in_restrictions(variavel, new_restricoes)
                     
         new_restricoes.append(forma_padrao_restricao)
         
@@ -762,21 +692,24 @@ def str_problem_to_standard_form(f_obj:str, constraints:list, detailed:bool = Fa
         for restricao in restricoes:
             constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(str(restricao))
             constantes_e_variaveis_lhs = dict(zip(variaveis_lhs, constantes_lhs))
-            constantes_e_variaveis_lhs = adding_zero_vars_on_constants_variables_dict(constantes_e_variaveis_fobj, constantes_e_variaveis_lhs)
+            constantes_e_variaveis_lhs = adicionando_variaveis_zeradas_na_expr(constantes_e_variaveis_fobj, constantes_e_variaveis_lhs)
             forma_padrao_restricao_detailed, _ = monta_restricao(constantes_e_variaveis_lhs, simbolo, valor_rhs, standard_form=(True, "s" + str(slack_var)),
                                                                  detailed=detailed, decimal=decimal) 
             new_restricoes.append(forma_padrao_restricao_detailed)
             if VERBOSE:
                 logger.debug(f"forma_padrao_restricao_detailed {restricao.lstrip()} SE TRANSFORMA EIN {forma_padrao_restricao_detailed}")
     f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis_fobj, standard_form=True, detailed=detailed, decimal=decimal)
-    #logger.debug(f"Função objetivo antiga: \n{problem}")
-    #logger.debug(f"\nFunção objetivo padrão: \n{std_problem}")
-    return f_obj, new_restricoes
-
-def str_problem_to_std_form_matrix (f_obj:str, constraints:list, standard_form:bool=False, 
-                                    decimal:bool = False) -> tuple: 
+    std_problem = f_obj + "\n"
+    for restricao in new_restricoes:
+        std_problem += str(restricao) + "\n"
+    std_problem = std_problem.strip()
+    logger.debug(f"Função objetivo antiga: \n{problem}")
+    logger.debug(f"\nFunção objetivo padrão: \n{std_problem}")
+    return std_problem
+        
+def str_problem_to_std_form_matrix (problem, decimal:bool = False) -> tuple: 
     """ 
-        Função para transformar um problema de programação linear em sua de matriz.
+        Função para transformar um problema de programação linear em sua forma padrão, retornado em matriz.
         Args:
             problem (str): problema a ser transformado
             decimal (bool): se True, retorna a função com termos em 0
@@ -787,34 +720,27 @@ def str_problem_to_std_form_matrix (f_obj:str, constraints:list, standard_form:b
                 - c (list): vetor de coeficientes da função objetivo
                 - x (list): lista de variáveis
     """
-    if standard_form:
-        f_obj, constraints = str_problem_to_standard_form(f_obj, constraints, detailed=True, decimal=decimal)
-    func_type, obj_func, constants, variables = extrai_f_obj(f_obj)
+    std_problem = str_problem_to_standard_form(problem, detailed=True, decimal=decimal)
+    std_problem = std_problem.split("\n")
+    tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(std_problem[0])
     # Matriz de coeficientes c
-    c = constants
-    relevant_constraints = constraints.copy()
-    remove_ge_le_constraints(relevant_constraints)
-    all_variables = extract_variables_problem(f_obj, constraints)
-    all_constants = [0 for _ in range(len(all_variables))]
-    all_constants_and_variables = dict(zip(all_variables, all_constants))
-            
+    c = constantes
+    restricoes = std_problem[1:]
     # Matriz de coeficientes A
     A = []
     b = []
-    for constraint in relevant_constraints:
-        if standard_form:
-            constants_lhs, variables_lhs, symbol, value_rhs = extrai_restricao(constraint)
-        else:
-            constants_lhs, variables_lhs, symbol, value_rhs = extrai_restricao(constraint)
-            constants_and_variables_lhs = adding_zero_vars_on_constants_variables_dict(all_constants_and_variables, dict(zip(variables_lhs, constants_lhs)))
-            constants_lhs = list(constants_and_variables_lhs.values())
-        A.append(constants_lhs)
-        b.append(value_rhs)
+    for restricao in restricoes:
+        constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(restricao)
+        non_zero_var = 0
+        if check_ge_zero(constantes_lhs, valor_rhs, simbolo):
+            continue
+        A.append(constantes_lhs)
+        b.append(valor_rhs)
     # Mostra bonitinho no console
     # Mostra bonitinho no log (como string)
-    logger.debug(f"Problema em matriz {display_matrix_f_obj(A, b, c, all_variables)}")
-    return A, b, c, all_variables
-
+    logger.debug(f"Problema em matriz {display_matrix_f_obj(A, b, c, variaveis)}")
+    return A, b, c, variaveis
+        
 def std_matrix_to_str_problem(A:list, b:list, c:list, x:list, tipo_funcao:str = "min", 
                               standard_form = False, restricoes_simbolos:list = None, 
                               decimal:bool = False, detailed:bool = False) -> str:
@@ -830,8 +756,7 @@ def std_matrix_to_str_problem(A:list, b:list, c:list, x:list, tipo_funcao:str = 
         tipo_variaveis (list): lista o tipo 
         decimal (bool): se True, retorna a função com termos em 0
     Returns:
-        str: f_obj,
-        list: restrições
+        str: problema transformado para forma padrão
     """
     #assert tipo_funcao.lower() == "min", "Tipo de função inválido, deve ser 'min'"
     assert A, "Matriz A está vazia"
@@ -876,7 +801,7 @@ def std_matrix_to_str_problem(A:list, b:list, c:list, x:list, tipo_funcao:str = 
                     # Trocando o sinal da variavel na funcao objetivo
                     constantes_e_variaveis_f_obj[variavel] = -constantes_e_variaveis_f_obj[variavel]
                     # Trocando sinal de todas variaveis lhs
-                    change_variable_sign_in_constraints(variavel, restricoes)
+                    change_variable_sign_in_restrictions(variavel, restricoes)
         
         restricoes.append(forma_padrao_restricao)
     
@@ -884,181 +809,36 @@ def std_matrix_to_str_problem(A:list, b:list, c:list, x:list, tipo_funcao:str = 
     if detailed:
         f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis_f_obj, standard_form=True, detailed=detailed, decimal=decimal)
         std_problem = f_obj + "\n"
-        aux_restricoes = restricoes
         for restricao in restricoes:
             constantes_lhs, variaveis_lhs, simbolo, valor_rhs = extrai_restricao(str(restricao))
             constantes_e_variaveis_lhs = dict(zip(variaveis_lhs, constantes_lhs))
-            constantes_e_variaveis_lhs = adding_zero_vars_on_constants_variables_dict(constantes_e_variaveis_f_obj, constantes_e_variaveis_lhs)
+            constantes_e_variaveis_lhs = adicionando_variaveis_zeradas_na_expr(constantes_e_variaveis_f_obj, constantes_e_variaveis_lhs)
             forma_padrao_restricao_detailed, _ = monta_restricao(constantes_e_variaveis_lhs, simbolo, valor_rhs, standard_form=(standard_form, "s1"),
                                                                  detailed=detailed, decimal=decimal) 
             
-            aux_restricoes.append(forma_padrao_restricao_detailed)
-        restricoes = aux_restricoes
-  
-    return f_obj, restricoes
+            std_problem += forma_padrao_restricao_detailed + "\n"
+    
+    else:
+        std_problem = f_obj + "\n"
+        for restricao in restricoes:
+            std_problem += str(restricao) + "\n"
+    """ std_problem = f_obj + "\n"
+    for restricao in restricoes:
+        std_problem += str(restricao) + "\n" """
+    
     logger.debug(f"Função objetivo antiga: {display_matrix_f_obj(A, b, c, x)}")
     logger.debug(f"Função objetivo de matriz para padrão: \n{std_problem.strip()}")
     return std_problem.strip()
-
-
-
-""" Parte de testes """
-
-
-
-def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
-                                test_check_ge_zero:bool=False,
+        
+def bateria_testes_utilitarios(test_check_ge_zero:bool=False,
                                 test_check_le_zero:bool=False,
                                 test_remove_ge_le_constraints:bool=False,
                                 test_change_variable_sign_in_f_obj:bool=False,
-                                test_change_variable_sign_in_constraints:bool=False,
-                                test_adding_zero_vars_on_constants_variables_dict:bool=False,
-                                test_extract_variables_problem:bool=False,
+                                test_change_variable_sign_in_restrictions:bool=False,
+                                test_adicionando_variaveis_zeradas_na_expr:bool=False,
+                                test_extrai_variaveis_problema:bool=False,
                                 test_extract_ge_le_constraints:bool=False,
                                ):
-    # Testes para standard_display_variable
-    if test_standard_display_variable:
-        t1 = {
-            "constante":0, 
-            "variavel":"x1", 
-            "first_var":True, 
-            "show_zero":True, 
-            "decimal":False, 
-            "result":"0x1"}
-        t2 = {
-            "constante": 0,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": True,
-            "decimal": False,
-            "result": "+ 0x1",
-        }
-        t3 = {
-            "constante": 0,
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": False,
-            "result": "",
-        }
-        t4 = {
-            "constante": 0,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": False,
-            "result": "",
-        }
-        t5 = {
-            "constante": 1,
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": False,
-            "result": "x1",
-        }
-        t6 = {
-            "constante": -1,
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": False,
-            "result": "-x1",
-        }
-        t7 = {
-            "constante": -2.5,
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": True,
-            "result": "-2.5x1",
-        }
-        t8 = {
-            "constante": Fraction(-5, 2),
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": True,
-            "result": "-2.5x1",
-        }
-        t9 = {
-            "constante": Fraction(5, 2),
-            "variavel": "x1",
-            "first_var": True,
-            "show_zero": False,
-            "decimal": True,
-            "result": "2.5x1",
-        }
-        t10 = {
-            "constante": Fraction(5, 2),
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "+ 2.5x1",
-        }
-        t11 = {
-            "constante": -1,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "- x1",
-        }
-        t12 = {
-            "constante": 1,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "+ x1",
-        }
-        t13 = {
-            "constante": -1,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "- x1",
-        }
-        t14 = {
-            "constante": 2,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "+ 2x1",
-        }
-        t15 = {
-            "constante": -2,
-            "variavel": "x1",
-            "first_var": False,
-            "show_zero": False,
-            "decimal": True,
-            "result": "- 2x1",
-        }
-
-        tests = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15]
-        #tests = [t14]
-        
-        if VERBOSE:
-            logger.info(f"Iniciando testes para standard_display_variable")
-
-        for i, test in enumerate(tests):
-            constante = test["constante"]
-            variavel = test["variavel"]
-            first_var = test["first_var"]
-            show_zero = test["show_zero"]
-            decimal = test["decimal"]
-            result = test["result"]
-            calculated = standard_display_variable(constante, variavel, first_var, show_zero, decimal)
-            try:
-                assert calculated == result
-            except AssertionError as e:
-                logger.error(f"Erro no teste {i+1}")
-                logger.error(f"\nvalor calculado: {calculated}\nvalor  esperado: {result}")
-                raise e
-
     # Testes para check_ge_zero
     if test_check_ge_zero:
         t1 = {"constraint":"2x1 + π2 + 3x4 ≥ 2/3", "result":False}
@@ -1075,14 +855,14 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
         tests = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11]
         if VERBOSE:
             logger.info(f"Iniciando testes para check_ge_zero")
-
+        
         for test in tests:
             constraint = test["constraint"]
             result = test["result"]
             constants, _, symbol, value_rhs = extrai_restricao(constraint)
             logger.debug(f"teste: {test}")
             assert check_ge_zero(constantes_lhs=constants, valor_rhs=value_rhs, simbolo=symbol) == result, f"Erro: {constraint} != {result}, teste: {test}"
-
+    
     # Testes para check_le_zero
     if test_check_le_zero:
         t1 = {"constraint":"2x1 + π2 + 3x4 ≤ 2/3", "result":False}
@@ -1097,16 +877,16 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
         t10 = {"constraint":"-x1 <= 0", "result":True}
         t11 = {"constraint":"24x1 <= 0", "result":True}
         tests = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11]
-
+       
         if VERBOSE:
             logger.info(f"Iniciando testes para check_le_zero")
-
+        
         for test in tests:
             constraint = test["constraint"]
             result = test["result"]
             constants, _, symbol, value_rhs = extrai_restricao(constraint)
             assert check_le_zero(constants_lhs=constants, value_rhs=value_rhs, symbol=symbol) == result, f"Erro: {constraint} != {result}"
-
+        
     # Testes para remove_ge_le_constraints
     if test_remove_ge_le_constraints:
         t1 = "2x1 + π2 + 3x4 ≥ 2/3"
@@ -1124,7 +904,7 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
             constants, _, symbol, value_rhs = extrai_restricao(constraint)
             if check_ge_zero(constants, value_rhs, symbol) or check_le_zero(constants, value_rhs, symbol):
                 raise AssertionError(f"Erro: {constraint} não foi removida")
-
+        
     # Testes para change_variable_sign_in_f_obj
     if test_change_variable_sign_in_f_obj:
         t1 = {"f_obj":"max 2x1 + π2 + 3x4", "variable":"x1", "result":"max -2x1 + π2 + 3x4"}
@@ -1141,10 +921,10 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
             result = test["result"]
             new_f = change_variable_sign_in_f_obj(variable, f_obj, detailed=True)
             assert new_f == result, f"Erro: {new_f} != {result}, teste: {test}"
-
-    # Testes para change_variable_sign_in_constraints
-    if test_change_variable_sign_in_constraints:
-        t1 = {"constraints":["2x1 + π2 + 3x4 ≥ 2/3", 
+            
+    # Testes para change_variable_sign_in_restrictions
+    if test_change_variable_sign_in_restrictions:
+        t1 = {"restrictions":["2x1 + π2 + 3x4 ≥ 2/3", 
                               "x1 >= 24", 
                               "-5x1 + π2 + 23x4 ≥ 2/3"],
                 "variable":"x1", 
@@ -1153,51 +933,25 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
                           "5x1 + π2 + 23x4 ≥ 2/3"]}
         tests = [t1]
         if VERBOSE:
-            logger.info(f"Iniciando testes para change_variable_sign_in_constraints")
+            logger.info(f"Iniciando testes para change_variable_sign_in_restrictions")
         for test in tests:
-            constraints = test["constraints"]
+            restrictions = test["restrictions"]
             variable = test["variable"]
             result = test["result"]
-            change_variable_sign_in_constraints(variable, constraints)
-            for i in range(len(constraints)):
-                assert constraints[i] == result[i], f"Erro: {constraints[i]} != {result[i]} teste: {test}"
-
-    # Testes para adding_zero_vars_on_constants_variables_dict
-    if test_adding_zero_vars_on_constants_variables_dict:
+            change_variable_sign_in_restrictions(variable, restrictions)
+            for i in range(len(restrictions)):
+                assert restrictions[i] == result[i], f"Erro: {restrictions[i]} != {result[i]} teste: {test}"
+    
+    # Testes para adicionando_variaveis_zeradas_na_expr
+    if test_adicionando_variaveis_zeradas_na_expr:
         # Implementar
         pass
-
-    # Testes para extract_variables_problem
-    if test_extract_variables_problem:
-        t1 = {"f_obj":"max 2x1 + π2 + 3x4", 
-              "constraints":["2x1 + π2 + 3x4 ≥ 2/3", "x1 >= 24"], 
-              "result":["x1", "π2", "x4"]
-              }
-
-        t2 = {"f_obj":"max 2x1 + π2 + 3x4",
-              "constraints":[], 
-              "result":["x1", "π2", "x4",]
-              }
-
-        t3 = {"f_obj":"",
-              "constraints":["2x1 + π2 + 3x4 ≥ 2/3", "x1 >= 24", "x5 = 0"], 
-              "result":["x1", "π2", "x4", "x5"]
-              }
-        tests = [t1, t2, t3]
-        if VERBOSE:
-            logger.info(f"Iniciando testes para extract_variables_problem")
-        for test in tests:
-            f_obj = test["f_obj"]
-            constraints = test["constraints"]
-            result = test["result"]
-            variables = extract_variables_problem(f_obj, constraints)
-            try:
-                assert variables == result
-            except AssertionError:
-                logger.error(f"Erro: {variables} != {result}, teste: {test}")
-                logger.error(f"\nvalor calculado:{variables}\nvalor  esperado:{result}")
-                raise
-
+    
+    # Testes para extrai_variaveis_problema
+    if test_extrai_variaveis_problema:
+        # Implementar
+        pass
+        
     # Testes para extrair_ge_le_constraints
     if test_extract_ge_le_constraints:
         t1 = {"constraints":[
@@ -1230,8 +984,8 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
                 "x1 >= 0"
             ]
               }
-        tests = [t1, t2]
-
+        tests = [t2]
+        
         if VERBOSE:
             logger.info(f"Iniciando testes para extrair_ge_le_constraints")
         for test in tests:
@@ -1246,12 +1000,14 @@ def bateria_testes_utilitarios(test_standard_display_variable:bool=False,
                     logger.error(f"Erro: {ge_le_constraints[i]} != {result[i]}, teste: {test}")
                     logger.error(f"\nvalor calculado:{ge_le_constraints}\nvalor  esperado:{result}")
                     raise
-
+        
+        
+        
 def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False, 
                    test_extrai_restricao:bool = False,
                    test_monta_f_obj:bool = False, 
                    test_monta_restricao:bool = False, 
-                   test_extract_variables_problem:bool = False, 
+                   test_extrai_variaveis_problema:bool = False, 
                    test_forma_padrao:bool = False, 
                    test_problema_padrao_matriz:bool = False, 
                    test_matriz_para_problema_padrao:bool = False,
@@ -1292,150 +1048,62 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
     # Testes para monta_f_obj
     if test_monta_f_obj:
         logger.info("Iniciando testes para monta_f_obj")
-        t1 = {
-                "tipo_funcao": "max",
-                "constantes_e_variaveis": {
-                    "π1": Fraction(3, 2),
-                    "y2": Fraction(2)
-                    },
-                "standard_form": False,
-                "detailed": True, 
-                "decimal": False,
-                "result": "max 3/2π1 + 2y2"
-            }
-        t2 = {
-                "tipo_funcao": "min",
-                "constantes_e_variaveis": {
-                    "x1": Fraction(-3, 2),
-                    "x2": Fraction(2),
-                    "x3": Fraction(0, 1)
-                    },
-                "standard_form": True,
-                "detailed": True,
-                "decimal": False,
-                "result": "min -3/2x1 + 2x2 + 0x3"
-            }
-        t3 = {
-                "tipo_funcao": "min",
-                "constantes_e_variaveis": {
-                    "x1": Fraction(-3, 2),
-                    "x2": Fraction(2),
-                    "x3": Fraction(0, 1)
-                    },
-                "standard_form": True,
-                "detailed": False,
-                "decimal": False,
-                "result": "min -3/2x1 + 2x2"
-            }
-        t4 = {
-                "tipo_funcao": "max",
-                "constantes_e_variaveis": {
-                    "x1": -4.1
-                    },
-                "standard_form": False,
-                "detailed": True,
-                "decimal": True,
-                "result": "max -4.1x1"
-            }
-        t5 = {
-                "tipo_funcao": "max",
-                "constantes_e_variaveis": {
-                    "x1": -1.0
-                    },
-                "standard_form": False,
-                "detailed": True,
-                "decimal": True,
-                "result": "max -x1"
-            }
-        t6 = {
-                "tipo_funcao": "max",
-                "constantes_e_variaveis": {
-                    "x1": 1.0,
-                    },
-                "standard_form": False,
-                "detailed": True,
-                "decimal": True,
-                "result": "max x1" 
-            }
-        t7 = {
-                "tipo_funcao": "max",
-                "constantes_e_variaveis": {
-                    "x1": 1.0,
-                    "x2": Fraction(3,2),
-                    "x3": -1.0
-                    },
-                "standard_form": True,
-                "detailed": True,
-                "decimal": True,
-                "result": "min -x1 - 1.5x2 + x3" 
-            }
-        
-       
-        tests = [t1, t2, t3, t4, t5, t6, t7]
-        for i, test in enumerate(tests):
-            tipo_funcao = test["tipo_funcao"]
-            constantes_e_variaveis = test["constantes_e_variaveis"]
-            standard_form = test["standard_form"]
-            detailed = test["detailed"]
-            decimal = test["decimal"]
-            result = test["result"]
+        t1 = ("max 3/2π1 + 2y2", True, False, "max 3/2π1 + 2y2")
+        t2 = ("min -3/2x1 + 2x2 + 0x3", True, False, "min -3/2x1 + 2x2 + 0x3")
+        t3 = ("min -3/2x1 + 2x2 + 0x3", False, False, "min -3/2x1 + 2x2")
+        t4 = ("max -4.1x1", True, True, "max -4.1x1")
+        testes = [t1, t2, t3, t4]
+        for teste in testes:
+            tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(teste[0])
+            constantes_e_variaveis = dict(zip(variaveis, constantes))
             try:
-                calculated = monta_f_obj(tipo_funcao, constantes_e_variaveis, standard_form=standard_form, detailed=detailed, decimal=decimal)
-                assert calculated == result
+                str_f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis, detailed=teste[1], decimal=teste[2])
+                assert str_f_obj == teste[3]
             except AssertionError as e:
-                logger.error(f"Erro no teste: {i + 1}")
-                logger.error(f"\nvalor calculado: {calculated}\nvalor  esperado: {result}")
+                logger.error(f"Erro no teste: {teste[0]}, valor calculado: {str_f_obj}, valor esperado: {teste[3]}")
                 raise e
         
-    # Testes para extract_variables_problem
-    if test_extract_variables_problem:
-        logger.info("Iniciando testes para extract_variables_problem")
-        t1 = {
-            "f_obj": "min x1 + 2x2",
-            "constraints": [
-                "2x1 + x2 ≥ 2/3",
-                "x1 + x2 ≥ 1",
-                "x2 = 2",
-                "x1 >= 0",
-                "x2 <= 0"
-            ],
-            "result": ["x1", "x2"]
-        }
-
-        t2 = {
-            "f_obj": "max π1 + 2π2",
-            "constraints": [
-                "2π1 + π2 ≥ 4",
-                "7π1 + π2 <= 1",
-                "-π2 = 2",
-                "π1 <= 0",
-                "π2 >= 0"
-            ],
-            "result": ["π1", "π2"]
-        }
-
-        t3 = {
-            "f_obj": "max π1 + 2π2",
-            "constraints": [
-                "2π1 + π2 ≥ 4",
-                "7π1 + π2 <= 1",
-                "-π2 = 2",
-                "π1 <= 0",
-                "π2 irrestrito"
-            ],
-            "result": ["π1", "π2"]
-        }
-        tests = [t1, t2, t3]
-        for test in tests:
-            f_obj = test["f_obj"]
-            constraints = test["constraints"]
-            result = test["result"]
-            variables = extract_variables_problem(f_obj, constraints)
+        t1 = ("max 3/2π1 + 2y2", False, "MIN -3/2π1 - 2y2")
+        t2 = ("min -3/2x1 + 2x2 + 0x3", False, "min -3/2x1 + 2x2 + 0x3")
+        t3 = ("max -4.1x1", True, "MIN 4.1x1")
+        t4 = ("max 0x1 + 0x2", True, "MIN 0x1 + 0x2")
+        testes = [t1, t2, t3, t4]
+        for teste in testes:
+            tipo_funcao, funcao_objetivo, constantes, variaveis = extrai_f_obj(teste[0])
+            constantes_e_variaveis = dict(zip(variaveis, constantes))
             try:
-                assert variables == result
+                str_f_obj = monta_f_obj(tipo_funcao, constantes_e_variaveis, standard_form=True, detailed=True, decimal=teste[1])
+                assert str_f_obj == teste[2]
             except AssertionError as e:
-                logger.error(f"Erro no teste: {test}, valor calculado: {variables}, valor esperado: {result}")
+                logger.error(f"Erro no teste: {teste[0]}, valor calculado: {str_f_obj}, valor esperado: {teste[2]}")
                 raise e
+    
+    # Testes para extrai_variaveis_problema
+    if test_extrai_variaveis_problema:
+        logger.info("Iniciando testes para extrai_variaveis_problema")
+        problema1 = """min x1 + 2x2
+                2x1 + x2 ≥ 2/3
+                x1 + x2 ≥ 1
+                x2 = 2
+                x1 >= 0
+                x2 <= 0"""
+                
+        problema2 = """max π1 + 2π2
+                2π1 + π2 ≥ 4
+                7π1 + π2 <= 1
+                -π2 = 2
+                π1 <= 0 
+                π2 >= 0"""
+                
+        problema3 = """max π1 + 2π2
+                2π1 + π2 ≥ 4
+                7π1 + π2 <= 1
+                -π2 = 2
+                π1 <= 0
+                π2 irrestrito"""
+        assert extrai_variaveis_problema(problema1) == ["x1", "x2"]
+        assert extrai_variaveis_problema(problema2) == ["π1", "π2"]
+        assert extrai_variaveis_problema(problema3) == ["π1", "π2"]
     
     # Testes para monta_restricao
     if test_monta_restricao:
@@ -1466,47 +1134,34 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
     if test_forma_padrao:
         logger.info("Iniciando testes para str_problem_to_standard_form")
         # Teste 1
-        t1 = {
-                "f_obj":"min x1 + 2x2",
-                "constraints":["2x1 + x2 ≥ 2/3",
-                    "x1 + x2 ≥ 1",
-                    "x2 = 2",
-                    "x1 >= 0",
-                    "x2 <= 0"], 
-                "detailed": False, 
-                "decimal": False,
-                "result":{
-                        "f_obj":"min x1 - 2x2",
-                        "constraints":["-2x1 + x2 + s1 = -2/3",
-                                        "-x1 + x2 + s2 = -1",
-                                        "-x2 = 2",
-                                        "x1 >= 0",
-                                        "x2 >= 0"]}
-                }
-        
-        t2 = {
-            "f_obj": "max π1 + 2π2",
-            "constraints": [
-                "2π1 + π2 ≥ 4",
-                "7π1 + π2 <= 1",
-                "-π2 = 2",
-                "π1 <= 0",
-                "π2 >= 0"
-            ],
-            "detailed": True,
-            "decimal": False,
-            "result": {
-                "f_obj": "min π1 - 2π2 + 0s1 + 0s2",
-                "constraints": [
-                    "2π1 - π2 + s1 + 0s2 = -4",
-                    "-7π1 + π2 + 0s1 + s2 = 1",
-                    "0π1 - π2 + 0s1 + 0s2 = 2",
-                    "π1 >= 0",
-                    "π2 >= 0"
-                ]
-            }
-        }
+        problem1 = ("""min x1 + 2x2
+                2x1 + x2 ≥ 2/3
+                x1 + x2 ≥ 1
+                x2 = 2
+                x1 >= 0
+                x2 <= 0""", {"detailed": False, "decimal": False})
                 
+        problem_ans1 = """min x1 - 2x2 
+                -2x1 + x2 + s1 = -2/3
+                -x1 + x2 + s2 = -1
+                -x2 = 2
+                x1 >= 0
+                x2 >= 0"""
+                
+        problem2 = ("""max π1 + 2π2
+                2π1 + π2 ≥ 4
+                7π1 + π2 <= 1
+                -π2 = 2
+                π1 <= 0 
+                π2 >= 0""", {"detailed": True, "decimal": False})
+        
+        problem_ans2 = """MIN π1 - 2π2 + 0s1 + 0s2
+                2π1 - π2 + s1 + 0s2 = -4
+                -7π1 + π2 + 0s1 + s2 = 1
+                0π1 - π2 + 0s1 + 0s2 = 2
+                π1 >= 0
+                π2 >= 0"""
+        
         # TODO:
         problem3 = ("""max π1 + 2π2
             2π1 + π2 ≥ 4
@@ -1517,92 +1172,59 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
         
         
         
-        tests = [t1, t2]
+        problems = [problem1, problem2]
         #problems = [problem2]
-        for test in tests:
-            f_obj = test["f_obj"]
-            constraints = test["constraints"]
-            detailed = test["detailed"]
-            decimal = test["decimal"]
-            result = test["result"]
-            
-            f_obj, constraints = str_problem_to_standard_form(f_obj, constraints, detailed=detailed, decimal=decimal)
-            
-            try:
-                assert f_obj == result["f_obj"]
-                assert constraints == result["constraints"]
-            except AssertionError as e:
-                logger.error(f"Erro no teste: {test['f_obj']}")
-                logger.error(f"valor calculado: {f_obj}, valor esperado: {result['f_obj']}")
-                logger.error(f"restrições calculadas: {constraints}, restrições esperadas: {result['constraints']}")
-                raise e
-        
+        problems_ans = [problem_ans1, problem_ans2]
+        for problem, problem_ans in zip(problems, problems_ans):
+            #print(problem)
+            #print(problem_ans)
+            problem_ans = problem_ans.split("\n")
+            problem_ans = [x.lstrip() for x in problem_ans]
+            std_problem = str_problem_to_standard_form(problem[0], detailed=problem[1]["detailed"], 
+                                                        decimal=problem[1]["decimal"])
+            std_problem = std_problem.split("\n")
+            for i, (x, y) in enumerate(zip(problem_ans, std_problem)):
+                try: 
+                    if VERBOSE:
+                        logging.debug(f"Comparando {x} e {y}")
+                    assert x.strip() == y
+                except AssertionError as e:
+                    logger.error(f"Erro na linha {i}, valor calculado: {y}, valor esperado: {x}")
+                    raise e
+         
     # Testes para str_problem_to_std_form_matrix
     if test_problema_padrao_matriz:
         logger.info("Iniciando testes para std_matrix_to_str_problem")
         # Teste 1
-        t1 = {
-            "f_obj": "min x1 + 2x2",
-            "constraints": [
-                "2x1 + x2 ≥ 2/3",
-                "x1 + x2 ≥ 1",
-                "x2 = 2",
-                "x1 >= 0",
-                "x2 >= 0"
-            ],
-            "standard_form": True,
-            "decimal": False,
-            "result": {
-                "c": [1, 2, 0, 0],
+        problem1 = ("""min x1 + 2x2
+            2x1 + x2 ≥ 2/3
+            x1 + x2 ≥ 1
+            x2 = 2
+            x1 >= 0
+            x2 >= 0""", {"decimal": False})
+        
+        ans1 = {"c": [1, 2, 0, 0],
                 "b": [Fraction(-2, 3), -1, 2],
                 "A": [[-2, -1, 1, 0],
-                    [-1, -1, 0, 1],
-                    [0, 1, 0, 0]],
-                "x": ["x1", "x2", "s1", "s2"]
-            }
-        }
-        t2 = {
-            "f_obj": "max π1 + 2π2",
-            "constraints": [
-                "2π1 + π2 ≥ 4",
-                "7π1 + π2 <= 1",
-                "-π2 = 2",
-                "π1 >= 0",
-                "π2 >= 0"
-            ],
-            "standard_form": False,
-            "decimal": False,
-            "result": {
-                "c": [Fraction(1, 1), Fraction(2, 1)],
-                "b": [Fraction(4, 1), Fraction(1, 1), Fraction(2, 1)],
-                "A": [[2, 1],
-                     [7, 1],
-                     [0, -1]],
-                "x": ["π1", "π2"]
-            }
-        }
+                      [-1, -1, 0, 1],
+                      [0, 1, 0, 0]],
+                "x": ["x1", "x2", "s1", "s2"]}
+        problems = [problem1]
+        answers = [ans1]
         
-        
-        tests = [t1, t2]
-        
-        for test in tests:
-            f_obj = test["f_obj"]
-            constraints = test["constraints"]
-            standard_form = test["standard_form"]
-            decimal = test["decimal"]
-            result = test["result"]
-            
-            A, b, c, x = str_problem_to_std_form_matrix(f_obj, constraints, standard_form,decimal)
-            
+        for ans, problem in zip(answers, problems):
+            #print(problem)
+            #print(problem_ans)
+            A, b, c, x = str_problem_to_std_form_matrix(problem[0], decimal=problem[1]["decimal"])
             try:
-                assert c == result["c"]
-                assert b == result["b"]
-                assert A == result["A"]
-                assert x == result["x"]
+                assert A == ans["A"]
+                assert b == ans["b"]
+                assert c == ans["c"]
+                assert x == ans["x"]
             except AssertionError as e:
-                logger.error(f"Erro no teste: {test['f_obj']}")
-                logger.error(f"\nvalor calculado: {c}\nvalor  esperado: {result['c']}")
-                logger.error(f"\nrestrições calculadas: {b}\nrestrições  esperadas: {result['b']}")
+                logger.error(f"Erro no teste: {problem[0]}")
+                for str_mat, ans_mat in zip([A, b, c, x], [ans["A"], ans["b"], ans["c"], ans["x"]]):
+                    logger.error(f"calculado\n{str_mat}\nesperado\n{ans_mat}")
                 raise e
     
     # Testes para std_matrix_to_str_problem
@@ -1620,7 +1242,7 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
             
              """
 
-        t1 = {
+        problem1 = {
             "A":[
                 [-2, -1, 1, 0],
                 [-1, -1, 0, 1],
@@ -1634,17 +1256,14 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
             "restricoes_simbolo": [],
             "detailed": False,
             "decimal": False,
-            "result": {
-                "f_obj": "min x1 + 2x2",
-                "constraints": [
-                    "-2x1 - x2 + s1 = -2/3",
-                    "-x1 - x2 + s2 = -1",
-                    "x2 = 2"
-                ]
-            }
         }
         
-        t2 ={ 
+        ans1 = ("min x1 + 2x2\n"
+        "-2x1 - x2 + s1 = -2/3\n"
+        "-x1 - x2 + s2 = -1\n"
+        "x2 = 2\n")
+        
+        problem2 ={ 
             "A":[
                 [-2, -1, 1, 0],
                 [-1, -1, 0, 1],
@@ -1658,17 +1277,14 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
             "restricoes_simbolo":["<=", "<=", "<="],
             "detailed": False,
             "decimal": False,
-            "result": {
-                "f_obj": "min -x1 - 2x2",
-                "constraints": [
-                    "-2x1 - x2 + x3 + s1 = -2/3",
-                    "-x1 - x2 + x4 + s2 = -1",
-                    "x2 + s3 = 2"
-                ]
-            }
         }
         
-        t3 ={ 
+        ans2 = ("min -x1 - 2x2\n"
+        "-2x1 - x2 + x3 + s1 = -2/3\n"
+        "-x1 - x2 + x4 + s2 = -1\n"
+        "x2 + s3 = 2\n")
+        
+        problem3 ={ 
             "A":[
                 [-2, -1, 1, 0],
                 [-1, -1, 0, 1],
@@ -1682,43 +1298,32 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
             "restricoes_simbolo":["<=", "<=", "<="],
             "detailed": False,
             "decimal": False,
-            "result": {
-                "f_obj": "max x1 + 2x2",
-                "constraints": [
-                    "-2x1 - x2 + x3 <= -2/3",
-                    "-x1 - x2 + x4 <= -1",
-                    "x2 <= 2"
-                ]
-            }
         }
         
-        tests = [t1, t2, t3]
+        ans3 = ("max x1 + 2x2\n"
+        "-2x1 - x2 + x3 <= -2/3\n"
+        "-x1 - x2 + x4 <= -1\n"
+        "x2 <= 2\n")
         
-        for test in tests:
-            A = test["A"]
-            b = test["b"]
-            c = test["c"]
-            x = test["x"]
-            standard_form = test["standard_form"]
-            tipo_funcao = test["tipo_funcao"]
-            restricoes_simbolo = test["restricoes_simbolo"]
-            detailed = test["detailed"]
-            decimal = test["decimal"]
-            
-            f_obj, constraints = std_matrix_to_str_problem(A, b, c, x, tipo_funcao=tipo_funcao,
-                                                           standard_form=standard_form,
-                                                           restricoes_simbolos=restricoes_simbolo,
-                                                           detailed=detailed, decimal=decimal)
-            
-            try:
-                assert f_obj == test["result"]["f_obj"]
-                assert constraints == test["result"]["constraints"]
-            except AssertionError as e:
-                logger.error(f"Erro no teste: {test['f_obj']}")
-                logger.error(f"valor calculado: {f_obj}, valor esperado: {test['result']['f_obj']}")
-                logger.error(f"restrições calculadas: {constraints}, restrições esperadas: {test['result']['constraints']}")
-                raise e
-    
+        problems = [problem1, problem2, problem3]
+        answers = [ans1, ans2, ans3]
+        
+        for ans, problem in zip(answers, problems):
+            calculado = std_matrix_to_str_problem(problem["A"], problem["b"], problem["c"], 
+                                                  problem["x"], tipo_funcao=problem["tipo_funcao"],
+                                                  standard_form=problem["standard_form"],
+                                                  restricoes_simbolos=problem["restricoes_simbolo"],
+                                                  detailed=problem["detailed"], decimal=problem["decimal"],)
+            for i, (x, y) in enumerate(zip(ans.split("\n"), calculado.split("\n"))):
+                try: 
+                    if VERBOSE:
+                        logging.debug(f"Comparando {x} e {y}")
+                    assert x.strip() == y.strip()
+                except AssertionError as e:
+                    logger.error(f"Erro no teste: \n{problem['tipo_funcao']}{display_matrix_f_obj(problem['A'], problem['b'], problem['c'], problem['x'])})")
+                    logger.error(f"Erro na linha {i}, valor calculado: {y}, valor esperado: {x}")
+                    raise e
+ 
     # Testes para extract_constraints_signs
     if test_extract_constraints_signs:
         logger.info("Iniciando testes para extract_constraints_signs")
@@ -1751,26 +1356,35 @@ def bateria_testes_str_padrao_problema(test_extrai_f_obj:bool = False,
             except AssertionError as e:
                 logger.error(f"Erro no teste: {test}\nvalor calculado: {assemble_variables_constraints(variables, symbols)}\nvalor  esperado: {result}")
                 raise e        
-
+ 
 def check_health_status():
     logger.level = logging.INFO
     logger.info("Iniciando com os testes utilitarios ...")
-    bateria_testes_utilitarios(True, True, True, True, True, True, True, True, True)
+    bateria_testes_utilitarios(True, True, True, True, True, True)
     logger.info("Testes utilitarios passaram com sucesso!")
     logger.info("Iniciando com os testes de str_padrao_problema ...")
-    bateria_testes_str_padrao_problema(True, True, True, True, True, True, True, True, True, True)
+    bateria_testes_str_padrao_problema(True, 
+                                       True, 
+                                       True, 
+                                       True, 
+                                       True, 
+                                       True, 
+                                       True, 
+                                       True,
+                                       True,
+                                        True,
+                                       )
     logger.info("Todos os testes passaram com sucesso!")
 
-# bateria_testes_str_padrao_problema(test_monta_f_obj=True)
+bateria_testes_utilitarios(test_extract_ge_le_constraints=True)
 
-bateria_testes_utilitarios(test_standard_display_variable=True)
-
-# bateria_testes_str_padrao_problema(teste_forma_padrao=True,teste_problema_padrao_matriz=True)
+#bateria_testes_str_padrao_problema(teste_forma_padrao=True,teste_problema_padrao_matriz=True)
 
 #check_health_status()
 
+#bateria_testes_utilitarios(True, True, True, True, True, True)
 
-# print(extrai_restricao("pi1 irrestrito"))
+#print(extrai_restricao("pi1 irrestrito"))
 
 def str_primal_to_dual(problem:list, standard_form:bool = False, decimal: bool = False):
     """
@@ -1813,25 +1427,28 @@ def str_primal_to_dual(problem:list, standard_form:bool = False, decimal: bool =
         
     print(f"f_obj do dual {std_matrix_to_str_problem(AT, c, b, x, tipo_funcao, restricoes_simbolos=restricoes_simbolos)}")
 
-# print(extrair_constantes_e_variaveis("-2/3x1 - x2 + 3"))
-# print(change_variable_sign_in_f_obj("x2","max 2x1 + 3x2"))
-# print(change_variable_sign_in_f_obj("x1","max 2x1 + 3x2"))
+#print(extrair_constantes_e_variaveis("-2/3x1 - x2 + 3"))
 
-# str_primal_to_dual("")
+#print(change_variable_sign_in_f_obj("x2","max 2x1 + 3x2"))
+#print(change_variable_sign_in_f_obj("x1","max 2x1 + 3x2"))
 
-# std_matrix_to_str_problem([], [], [], [], tipo_funcao="max", decimal=False)
+#str_primal_to_dual("")
 
-# str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")
-
-
-# str_problem_to_standard_form("", detailed=True)
-
-# bateria_testes_str_padrao_problema(True, True, True, True, True, True)
+#std_matrix_to_str_problem([], [], [], [], tipo_funcao="max", decimal=False)
+         
+#str_problem_to_std_form_matrix("min 3/2x1 + 2x2\n2x1 + x2 + 3x4 ≥ 2/3")       
 
 
-# bateria_testes()
+#str_problem_to_standard_form("", detailed=True)
+
+#bateria_testes_str_padrao_problema(True, True, True, True, True, True)
+
+
+
+#bateria_testes()
 
 # str_problem_to_matrix("")
+
 
 
 # π, Φ

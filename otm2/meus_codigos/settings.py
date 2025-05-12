@@ -6,6 +6,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 VERBOSE = False
 
+PRECISO_EXPLICAR = True
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -47,11 +49,11 @@ LOGGING = {
             "propagate": True,         # <- agora sim, bloqueia propagação para o pai
             #"handlers": [],             # <- sem handler próprio
         },
-        # "__main__": { //  <- logger chamado quando usa getLogger(__name__)
-        #     "handlers": ["console"],
-        #     "level": "DEBUG",
-        #     "propagate": True,
-        # },
+        "__main__": { #  <- logger chamado quando usa getLogger(__name__)
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
         # "root": {  #  <-  logger raiz
         #     "handlers": ["console"],
         #     "level": "DEBUG",

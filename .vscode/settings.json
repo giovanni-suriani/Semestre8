@@ -7,6 +7,7 @@
         "java": true,
         "shellscript": true,
         "typescriptreact": true,
-        "python": true
+        "python": true,
+        "verilog": true
     }
 }
